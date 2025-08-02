@@ -19,4 +19,10 @@ internal class GitHubUsersRepositoryImpl @Inject constructor(
         }.body<List<GitHubUserEntity>>()
         return response.map { it.toModel() }
     }
+
+    override fun getUsersPagingSource(
+        perPage: Int,
+    ): GitHubUsersPagingSource {
+        return GitHubUsersPagingSource(perPage = perPage, gitHubHttpClient = gitHubHttpClient)
+    }
 }

@@ -15,7 +15,7 @@ class GitHubUsersPagingSource(
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, GitHubUser> {
         try {
-            val nextUserId = params.key ?: 0 // List Apiをはじめから取得する場合は0
+            val nextUserId = params.key ?: 0
             val response = gitHubHttpClient.get("users") {
                 url {
                     parameters.append("since", nextUserId.toString())
