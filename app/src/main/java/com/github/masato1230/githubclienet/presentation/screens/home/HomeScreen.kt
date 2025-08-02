@@ -1,11 +1,16 @@
 package com.github.masato1230.githubclienet.presentation.screens.home
 
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.github.masato1230.githubclienet.domain.model.GitHubUser
 
 @Composable
 internal fun HomeScreen(
@@ -14,7 +19,7 @@ internal fun HomeScreen(
     Scaffold { paddingValues ->
         // TODO error and loading
         HomeContent(
-            sampleText = viewModel.sampleText.value,
+            users = viewModel.users.value,
             modifier = Modifier.padding(paddingValues),
         )
     }
@@ -22,11 +27,22 @@ internal fun HomeScreen(
 
 @Composable
 private fun HomeContent(
-    sampleText: String,
+    users: List<GitHubUser>,
     modifier: Modifier,
-    ) {
-    Text(
-        sampleText,
+) {
+    LazyColumn(
         modifier = modifier,
-    )
+    ) {
+        items(
+            users,
+            key = { it.id },
+        ) {
+            Text(
+                text = it.name,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(8.dp),
+            )
+        }
+    }
 }

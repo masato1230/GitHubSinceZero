@@ -6,8 +6,8 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class GitHubUserEntity(
-    val name: String?,
-    val email: String?,
+    val name: String? = null,
+    val email: String? = null,
     val login: String,
     val id: Int,
     @SerialName("node_id")
@@ -41,9 +41,9 @@ data class GitHubUserEntity(
     @SerialName("site_admin")
     val siteAdmin: Boolean,
     @SerialName("starred_at")
-    val starredAt: String?,
+    val starredAt: String? = null,
     @SerialName("user_view_type")
-    val userViewType: String?,
+    val userViewType: String? = null,
 ) {
 
     @Serializable
