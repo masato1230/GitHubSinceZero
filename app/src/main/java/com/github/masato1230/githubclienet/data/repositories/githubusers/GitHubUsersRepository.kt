@@ -1,5 +1,7 @@
 package com.github.masato1230.githubclienet.data.repositories.githubusers
 
+import com.github.masato1230.githubclienet.domain.model.GitHubUser
+
 interface GitHubUsersRepository {
 
     /**
@@ -9,5 +11,5 @@ interface GitHubUsersRepository {
     suspend fun fetchUsers(
         since: Int,
         perPage: Int = 100,
-    ): String
+    ): List<GitHubUser>
 }

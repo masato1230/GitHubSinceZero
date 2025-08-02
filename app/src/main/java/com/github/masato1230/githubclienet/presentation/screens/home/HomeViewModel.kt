@@ -24,6 +24,6 @@ internal class HiltViewModel @Inject constructor(
         val sampleText = gitHubUsersRepository.fetchUsers(
             since = 1,
         )
-        _sampleText.value = sampleText
+        _sampleText.value = sampleText.toString()
     }
 }
