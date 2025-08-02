@@ -23,7 +23,7 @@ internal class HiltViewModel @Inject constructor(
     }
 
     fun loadSample() = viewModelScope.launch {
-        val users = gitHubUsersRepository.fetchUsers(since = 1)
+        val users = gitHubUsersRepository.fetchUsers(since = 0)
         _users.value = users
     }
 }

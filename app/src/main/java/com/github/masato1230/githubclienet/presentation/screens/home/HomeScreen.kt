@@ -38,7 +38,7 @@ private fun HomeContent(
             key = { it.id },
         ) {
             Text(
-                text = it.name,
+                text = it.id.toString() + it.name,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(8.dp),
