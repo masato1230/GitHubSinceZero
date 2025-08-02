@@ -14,15 +14,19 @@ internal fun HomeScreen(
     Scaffold { paddingValues ->
         // TODO error and loading
         HomeContent(
+            sampleText = viewModel.sampleText.value,
             modifier = Modifier.padding(paddingValues),
         )
     }
 }
 
 @Composable
-private fun HomeContent(modifier: Modifier) {
+private fun HomeContent(
+    sampleText: String,
+    modifier: Modifier,
+    ) {
     Text(
-        "home",
+        sampleText,
         modifier = modifier,
     )
 }
