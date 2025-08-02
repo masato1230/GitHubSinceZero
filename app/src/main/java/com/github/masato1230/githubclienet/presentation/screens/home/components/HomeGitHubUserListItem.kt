@@ -1,6 +1,7 @@
 package com.github.masato1230.githubclienet.presentation.screens.home.components
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -32,11 +33,13 @@ import com.github.masato1230.githubclienet.presentation.theme.GitHubClienetTheme
 @Composable
 internal fun HomeGitHubUserListItem(
     user: GitHubUser,
+    onClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Row(
         modifier = modifier
             .fillMaxWidth()
+            .clickable(onClick = onClick)
             .padding(horizontal = 16.dp, vertical = 8.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
@@ -75,6 +78,7 @@ private fun PreviewHomeGitHubUserListItem() {
     GitHubClienetTheme {
         HomeGitHubUserListItem(
             user = GitHubUser.createDummy(),
+            onClick = {},
         )
     }
 }
