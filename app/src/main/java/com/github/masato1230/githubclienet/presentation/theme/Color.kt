@@ -1,4 +1,4 @@
-package com.github.masato1230.githubclienet.ui.theme
+package com.github.masato1230.githubclienet.presentation.theme
 
 import androidx.compose.ui.graphics.Color
 

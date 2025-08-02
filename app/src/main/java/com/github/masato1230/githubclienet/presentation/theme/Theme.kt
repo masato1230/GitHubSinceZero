@@ -1,6 +1,5 @@
-package com.github.masato1230.githubclienet.ui.theme
+package com.github.masato1230.githubclienet.presentation.theme
 
-import android.app.Activity
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
