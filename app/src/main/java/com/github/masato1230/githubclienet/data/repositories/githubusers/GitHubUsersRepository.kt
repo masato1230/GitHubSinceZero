@@ -6,7 +6,7 @@ interface GitHubUsersRepository {
 
     /**
      * Fetch users from the GitHub API.
-     * @see <a href="https://docs.github.com/en/rest/users/users?apiVersion=2022-11-28#list-users />
+     * see [api doc](https://docs.github.com/en/rest/users/users?apiVersion=2022-11-28#list-users)
      */
     suspend fun fetchUsers(
         since: Int,
@@ -15,7 +15,7 @@ interface GitHubUsersRepository {
 
     /**
      * Create PagingSource to fetch users from the GitHub API.
-     * @see <a href="https://docs.github.com/en/rest/users/users?apiVersion=2022-11-28#list-users />
+     * see [api doc](https://docs.github.com/en/rest/users/users?apiVersion=2022-11-28#list-users)
      */
     fun getUsersPagingSource(
         perPage: Int,

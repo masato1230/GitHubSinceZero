@@ -1,6 +1,7 @@
 package com.github.masato1230.githubclienet.presentation.screens.home
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -19,6 +20,7 @@ import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemKey
 import com.github.masato1230.githubclienet.domain.model.GitHubUser
+import com.github.masato1230.githubclienet.presentation.screens.home.components.HomeGitHubUserListItem
 
 @Composable
 internal fun HomeScreen(
@@ -63,18 +65,14 @@ private fun HomeContent(
 ) {
     LazyColumn(
         modifier = modifier,
+        contentPadding = PaddingValues(bottom = 80.dp),
     ) {
         items(
             pagingUsers.itemCount,
             key = pagingUsers.itemKey { it.id },
         ) {
             val user = pagingUsers[it] ?: return@items
-            Text(
-                text = user.id.toString() + user.name,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(8.dp),
-            )
+            HomeGitHubUserListItem(user = user)
         }
         item(
             key = "append_loading",
@@ -90,9 +88,11 @@ private fun HomeContent(
                             .padding(8.dp),
                     )
                 }
+
                 is LoadState.Loading -> {
                     LinearProgressIndicator()
                 }
+
                 is LoadState.NotLoading -> Unit
             }
         }

@@ -59,6 +59,7 @@ data class GitHubUserEntity(
         return GitHubUser(
             id = id,
             name = login,
+            avatarUrl = avatarUrl,
         )
     }
 }

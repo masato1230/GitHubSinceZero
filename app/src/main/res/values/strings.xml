@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">GitHubClienet</string>
+    <string name="content_description_user_avatar_image">ユーザーのアバター画像</string>
 </resources>
