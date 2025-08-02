@@ -9,8 +9,6 @@ import io.ktor.client.HttpClient
 import io.ktor.client.engine.cio.CIO
 import io.ktor.client.plugins.HttpTimeout
 import io.ktor.client.plugins.defaultRequest
-import io.ktor.client.request.header
-import io.ktor.http.buildUrl
 import io.ktor.http.headers
 
 @Module
@@ -18,7 +16,7 @@ import io.ktor.http.headers
 object DataModule {
 
     @Provides
-    fun providesGitHubHttpClient(): HttpClient {
+    fun provideGitHubHttpClient(): HttpClient {
         return HttpClient(CIO) {
             defaultRequest {
                 url(GithubClienetConstants.GITHUB_BASE_URL)
