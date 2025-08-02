@@ -1,29 +1,17 @@
 package com.github.masato1230.githubclienet.presentation.screens.home
 
-import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.github.masato1230.githubclienet.data.repositories.githubusers.GitHubUsersRepository
+import androidx.paging.PagingData
 import com.github.masato1230.githubclienet.domain.model.GitHubUser
+import com.github.masato1230.githubclienet.domain.usecases.GetGitHubUsersUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import jakarta.inject.Inject
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.Flow
 
 @HiltViewModel
 internal class HiltViewModel @Inject constructor(
-    private val gitHubUsersRepository: GitHubUsersRepository,
+    private val getGitHubUsersUseCase: GetGitHubUsersUseCase,
 ) : ViewModel() {
 
-    private val _users = mutableStateOf<List<GitHubUser>>(emptyList())
-    val users: State<List<GitHubUser>> = _users
-
-    init {
-        loadSample()
-    }
-
-    fun loadSample() = viewModelScope.launch {
-        val users = gitHubUsersRepository.fetchUsers(since = 0)
-        _users.value = users
-    }
+    val users: Flow<PagingData<GitHubUser>> = getGitHubUsersUseCase()
 }

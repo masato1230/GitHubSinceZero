@@ -24,7 +24,7 @@ class GitHubUsersPagingSource(
             }.body<List<GitHubUserEntity>>()
             return LoadResult.Page(
                 data = response.map { it.toModel() },
-                prevKey = if (nextUserId == 1) null else (nextUserId - 1),
+                prevKey = null,
                 nextKey = response.lastOrNull()?.id
             )
         } catch (e: Exception) {
@@ -34,11 +34,5 @@ class GitHubUsersPagingSource(
         }
     }
 
-    override fun getRefreshKey(state: PagingState<Int, GitHubUser>): Int? {
-        return state.anchorPosition?.let { anchorPosition ->
-            state.closestPageToPosition(anchorPosition)?.let { closestPage ->
-                closestPage.prevKey?.plus(1) ?: closestPage.nextKey?.minus(1)
-            }
-        }
-    }
+    override fun getRefreshKey(state: PagingState<Int, GitHubUser>) = state.anchorPosition
 }
