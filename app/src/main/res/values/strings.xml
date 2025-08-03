@@ -6,7 +6,8 @@
     <string name="retry">リトライ</string>
 
     <!-- user detail -->
-    <string name="user_detail_user_activities">ユーザー活動</string>
+    <string name="user_detail_recent_activities">最近の活動</string>
+    <string name="user_detail_repository">レポジトリ</string>
 
     <!-- content description -->
     <string name="content_description_back_button">戻るボタン</string>

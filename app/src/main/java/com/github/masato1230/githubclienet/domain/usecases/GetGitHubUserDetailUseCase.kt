@@ -25,6 +25,16 @@ class GetGitHubUserDetailUseCase @Inject constructor(
                     val userDetail = gitHubUsersRepository.fetchUserDetail(login = login)
                     return@async GitHubUserSection.BaseSection(userDetail = userDetail)
                 }
+                // start fetching repos
+                val repositoriesSectionDeferred = async {
+                    return@async try {
+                        val repositories =
+                            gitHubUsersRepository.fetchUserRepositories(login = login)
+                        GitHubUserSection.RepositoriesSection(repositories = Result.success(repositories))
+                    } catch (e: Exception) {
+                        GitHubUserSection.RepositoriesSection(repositories = Result.failure(e))
+                    }
+                }
                 // start fetching events
                 val eventsSectionDeferred = async {
                     return@async try {
@@ -40,6 +50,10 @@ class GetGitHubUserDetailUseCase @Inject constructor(
                 // await base
                 val baseSection = baseSectionDeferred.await()
                 sections.add(baseSection)
+                emit(sections to false)
+                // await repos
+                val reposSection = repositoriesSectionDeferred.await()
+                sections.add(reposSection)
                 emit(sections to false)
                 // await events
                 val eventsSection = eventsSectionDeferred.await()

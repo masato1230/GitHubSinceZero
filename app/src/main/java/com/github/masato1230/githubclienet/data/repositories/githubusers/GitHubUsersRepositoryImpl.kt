@@ -27,4 +27,9 @@ internal class GitHubUsersRepositoryImpl @Inject constructor(
         val response = gitHubHttpClient.get("users/$login/events/public").bodyAsText()
         return response
     }
+
+    override suspend fun fetchUserRepositories(login: String): String {
+        val response = gitHubHttpClient.get("users/$login/repos").bodyAsText()
+        return response
+    }
 }

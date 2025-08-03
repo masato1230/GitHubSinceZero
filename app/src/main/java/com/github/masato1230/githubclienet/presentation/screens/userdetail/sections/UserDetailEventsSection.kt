@@ -27,7 +27,7 @@ fun UserDetailEventsSection(
             .padding(horizontal = 24.dp),
     ) {
         Text(
-            text = stringResource(id = R.string.user_detail_user_activities),
+            text = stringResource(id = R.string.user_detail_recent_activities),
             style = MaterialTheme.typography.headlineSmall,
         )
         eventsResult.onSuccess { events ->

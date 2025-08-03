@@ -110,6 +110,13 @@ private fun UserDetailContent(
                     )
                 }
 
+                is GitHubUserSection.RepositoriesSection -> {
+                    // TODO repos section
+                    UserDetailEventsSection(
+                        eventsResult = section.repositories,
+                    )
+                }
+
                 is GitHubUserSection.EventsSection -> {
                     UserDetailEventsSection(
                         eventsResult = section.events,
@@ -121,11 +128,15 @@ private fun UserDetailContent(
         item(
             key = "loading_indicator",
         ) {
-            Box(
-                modifier = Modifier.fillMaxWidth().padding(top = 48.dp),
-                contentAlignment = Alignment.Center,
-            ) {
-                CircularProgressIndicator()
+            if (isLoadingMore) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 48.dp),
+                    contentAlignment = Alignment.Center,
+                ) {
+                    CircularProgressIndicator()
+                }
             }
         }
     }
