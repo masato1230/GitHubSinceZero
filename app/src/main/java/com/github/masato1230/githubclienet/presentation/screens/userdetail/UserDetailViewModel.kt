@@ -44,7 +44,7 @@ internal class UserDetailViewModel @Inject constructor(
             }.collect {
                 _state.value = UserDetailState.ShowList(
                     sections = it.first.toList(),
-                    isLoadingMore = it.second
+                    isCompeletedLoading = it.second
                 )
             }
         }

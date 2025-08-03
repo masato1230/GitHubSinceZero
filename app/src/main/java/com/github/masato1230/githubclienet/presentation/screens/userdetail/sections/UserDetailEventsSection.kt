@@ -32,7 +32,7 @@ fun UserDetailEventsSection(
         )
         eventsResult.onSuccess { events ->
             Text(
-                text = events,
+                text = events.toString(),
             )
         }.onFailure {
             Spacer(modifier = Modifier.height(8.dp))

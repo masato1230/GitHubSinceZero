@@ -8,7 +8,7 @@ internal sealed class UserDetailState {
 
     data class ShowList(
         val sections: List<GitHubUserSection>,
-        val isLoadingMore: Boolean,
+        val isCompeletedLoading: Boolean,
     ) : UserDetailState()
 
     data object Error : UserDetailState()

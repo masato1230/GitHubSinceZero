@@ -15,7 +15,7 @@ class GetGitHubUserDetailUseCase @Inject constructor(
 ) {
 
     /**
-     * @return Flow of a pair which contains loaded list and isLoading boolean
+     * @return Flow of a pair which contains loaded list and isCompleted boolean
      */
     operator fun invoke(login: String): Flow<Pair<List<GitHubUserSection>, Boolean>> =
         flow {
@@ -30,7 +30,7 @@ class GetGitHubUserDetailUseCase @Inject constructor(
                     return@async try {
                         val repositories =
                             gitHubUsersRepository.fetchUserRepositories(login = login)
-                        GitHubUserSection.RepositoriesSection(repositories = Result.success(repositories))
+                        GitHubUserSection.RepositoriesSection(repositories = Result.success(repositories.toString()))
                     } catch (e: Exception) {
                         GitHubUserSection.RepositoriesSection(repositories = Result.failure(e))
                     }

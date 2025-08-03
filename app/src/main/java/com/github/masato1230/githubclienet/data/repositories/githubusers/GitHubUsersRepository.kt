@@ -20,11 +20,11 @@ interface GitHubUsersRepository {
         login: String,
     ): GitHubUserDetail
 
-    suspend fun fetchUserEvents(
-        login: String,
-    ) : String
-
     suspend fun fetchUserRepositories(
+        login: String,
+    ) : List<String>
+
+    suspend fun fetchUserEvents(
         login: String,
     ) : String
 }

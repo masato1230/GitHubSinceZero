@@ -80,7 +80,7 @@ internal fun UserDetailScreen(
 
             is UserDetailState.ShowList -> {
                 UserDetailContent(
-                    isLoadingMore = state.isLoadingMore,
+                    isCompletedLoading = state.isCompeletedLoading,
                     sections = state.sections,
                     modifier = Modifier.padding(paddingValues),
                 )
@@ -91,7 +91,7 @@ internal fun UserDetailScreen(
 
 @Composable
 private fun UserDetailContent(
-    isLoadingMore: Boolean,
+    isCompletedLoading: Boolean,
     sections: List<GitHubUserSection>,
     modifier: Modifier,
 ) {
@@ -128,7 +128,7 @@ private fun UserDetailContent(
         item(
             key = "loading_indicator",
         ) {
-            if (isLoadingMore) {
+            if (!isCompletedLoading) {
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
