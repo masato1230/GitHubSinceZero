@@ -59,7 +59,7 @@ fun UserDetailTopAppBar(
                     )
                     Spacer(modifier = Modifier.width(16.dp))
                     Text(
-                        text = login,
+                        text = "ID: $login",
                         modifier = Modifier.sharedElement(
                             sharedContentState = sharedTransitionScope.rememberSharedContentState(
                                 key = SharedTransitionKey.UserDetailLogin(login = login).key,

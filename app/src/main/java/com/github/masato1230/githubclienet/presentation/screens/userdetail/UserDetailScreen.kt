@@ -11,7 +11,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -22,6 +21,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.github.masato1230.githubclienet.domain.model.GitHubUserSection
 import com.github.masato1230.githubclienet.presentation.components.error.CommunicationErrorView
 import com.github.masato1230.githubclienet.presentation.screens.userdetail.components.UserDetailTopAppBar
+import com.github.masato1230.githubclienet.presentation.screens.userdetail.sections.UserDetailBaseSection
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalSharedTransitionApi::class)
 @Composable
@@ -94,7 +94,9 @@ private fun UserDetailContent(
         items(sections) { section ->
             when (section) {
                 is GitHubUserSection.BaseSection -> {
-                    Text("base")
+                    UserDetailBaseSection(
+                        userDetail = section.userDetail,
+                    )
                 }
             }
         }

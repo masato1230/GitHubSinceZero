@@ -14,4 +14,26 @@ class GitHubUserDetail(
     val publicGists: Int,
     val followers: Int,
     val following: Int
-)
+) {
+
+    companion object {
+
+        fun createDummy(): GitHubUserDetail {
+            return GitHubUserDetail(
+                login = "login",
+                name = "name",
+                company = "company",
+                blog = "blog",
+                location = "location",
+                email = "email",
+                hireable = true,
+                bio = "bio",
+                twitterUsername = "twitterUsername",
+                publicRepos = 1,
+                publicGists = 2,
+                followers = 3,
+                following = 4
+            )
+        }
+    }
+}
