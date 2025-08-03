@@ -1,5 +1,6 @@
 package com.github.masato1230.githubclienet.data.repositories.githubusers
 
+import com.github.masato1230.githubclienet.domain.model.GitHubRepositoryModel
 import com.github.masato1230.githubclienet.domain.model.GitHubUserDetail
 
 interface GitHubUsersRepository {
@@ -22,7 +23,7 @@ interface GitHubUsersRepository {
 
     suspend fun fetchUserRepositories(
         login: String,
-    ) : List<String>
+    ) : List<GitHubRepositoryModel>
 
     suspend fun fetchUserEvents(
         login: String,

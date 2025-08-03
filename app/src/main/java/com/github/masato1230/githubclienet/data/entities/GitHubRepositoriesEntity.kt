@@ -1,9 +1,14 @@
 package com.github.masato1230.githubclienet.data.entities
 
+import com.github.masato1230.githubclienet.data.serializers.ZonedDateTimeSerializer
+import com.github.masato1230.githubclienet.domain.model.GitHubRepositoryModel
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import java.time.ZonedDateTime
+import kotlin.time.ExperimentalTime
 
-@kotlinx.serialization.Serializable
+@OptIn(ExperimentalTime::class)
+@Serializable
 data class GitHubRepositoryEntity(
     val id: Int,
     @SerialName("node_id") val nodeId: String,
@@ -28,9 +33,12 @@ data class GitHubRepositoryEntity(
     @SerialName("created_at")
     val createdAt: String,
     @SerialName("updated_at")
-    val updatedAt: String,
+    @Serializable(with = ZonedDateTimeSerializer::class)
+    val updatedAt: ZonedDateTime,
     @SerialName("pushed_at")
-    val pushedAt: String
+    val pushedAt: String,
+    @SerialName("html_url")
+    val htmlUrl: String,
 ) {
     @Serializable
     data class GitHubOwnerDto(
@@ -39,5 +47,20 @@ data class GitHubRepositoryEntity(
         @SerialName("node_id") val nodeId: String,
         @SerialName("avatar_url") val avatarUrl: String,
     )
+
+    fun toModel(): GitHubRepositoryModel {
+        return  GitHubRepositoryModel(
+            id = id,
+            fullName = fullName,
+            description = description,
+            stargazersCount = stargazersCount,
+            watchersCount = watchersCount,
+            forksCount = forksCount,
+            openIssuesCount = openIssuesCount,
+            language = language,
+            updatedAt = updatedAt,
+            htmlUrl = htmlUrl,
+        )
+    }
 }
 

@@ -4,6 +4,7 @@
     <!-- common -->
     <string name="communication_failed">通信に失敗しました</string>
     <string name="retry">リトライ</string>
+    <string name="updated_date_time">更新日時</string>
 
     <!-- user detail -->
     <string name="user_detail_recent_activities">最近の活動</string>

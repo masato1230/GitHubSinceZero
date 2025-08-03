@@ -7,7 +7,7 @@ sealed class GitHubUserSection {
     ) : GitHubUserSection()
 
     data class RepositoriesSection(
-        val repositories: Result<String>,
+        val repositories: Result<List<GitHubRepositoryModel>>,
     ) : GitHubUserSection()
 
     data class EventsSection(

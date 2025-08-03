@@ -30,7 +30,7 @@ class GetGitHubUserDetailUseCase @Inject constructor(
                     return@async try {
                         val repositories =
                             gitHubUsersRepository.fetchUserRepositories(login = login)
-                        GitHubUserSection.RepositoriesSection(repositories = Result.success(repositories.toString()))
+                        GitHubUserSection.RepositoriesSection(repositories = Result.success(repositories))
                     } catch (e: Exception) {
                         GitHubUserSection.RepositoriesSection(repositories = Result.failure(e))
                     }

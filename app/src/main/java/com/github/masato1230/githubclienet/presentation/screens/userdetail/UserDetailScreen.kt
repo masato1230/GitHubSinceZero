@@ -25,6 +25,7 @@ import com.github.masato1230.githubclienet.presentation.components.error.Communi
 import com.github.masato1230.githubclienet.presentation.screens.userdetail.components.UserDetailTopAppBar
 import com.github.masato1230.githubclienet.presentation.screens.userdetail.sections.UserDetailBaseSection
 import com.github.masato1230.githubclienet.presentation.screens.userdetail.sections.UserDetailEventsSection
+import com.github.masato1230.githubclienet.presentation.screens.userdetail.sections.UserDetailRepositoriesSection
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalSharedTransitionApi::class)
 @Composable
@@ -111,9 +112,8 @@ private fun UserDetailContent(
                 }
 
                 is GitHubUserSection.RepositoriesSection -> {
-                    // TODO repos section
-                    UserDetailEventsSection(
-                        eventsResult = section.repositories,
+                    UserDetailRepositoriesSection(
+                        repositoriesResult = section.repositories,
                     )
                 }
 

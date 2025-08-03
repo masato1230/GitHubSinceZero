@@ -2,6 +2,7 @@ package com.github.masato1230.githubclienet.data.repositories.githubusers
 
 import com.github.masato1230.githubclienet.data.entities.GitHubRepositoryEntity
 import com.github.masato1230.githubclienet.data.entities.GitHubUserDetailEntity
+import com.github.masato1230.githubclienet.domain.model.GitHubRepositoryModel
 import com.github.masato1230.githubclienet.domain.model.GitHubUserDetail
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
@@ -24,10 +25,10 @@ internal class GitHubUsersRepositoryImpl @Inject constructor(
         return response.toModel()
     }
 
-    override suspend fun fetchUserRepositories(login: String): List<String> {
+    override suspend fun fetchUserRepositories(login: String): List<GitHubRepositoryModel> {
         val response = gitHubHttpClient.get("users/$login/repos").body<List<GitHubRepositoryEntity>>()
         return response.map {
-            it.toString()
+            it.toModel()
         }
     }
 
