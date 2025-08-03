@@ -56,12 +56,14 @@ internal fun HomeGitHubUserListItem(
             Text(
                 text = user.login,
                 style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold),
-                modifier = Modifier.sharedElement(
-                    sharedContentState = sharedTransitionScope.rememberSharedContentState(
-                        key = SharedTransitionKey.UserDetailLogin(login = user.login).key,
+                modifier = Modifier
+                    .weight(1f)
+                    .sharedElement(
+                        sharedContentState = sharedTransitionScope.rememberSharedContentState(
+                            key = SharedTransitionKey.UserDetailLogin(login = user.login).key,
+                        ),
+                        animatedVisibilityScope = animatedContentScope,
                     ),
-                    animatedVisibilityScope = animatedContentScope,
-                ),
             )
         }
     }
