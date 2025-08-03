@@ -1,5 +1,8 @@
 package com.github.masato1230.githubclienet.presentation.screens.home
 
+import androidx.compose.animation.AnimatedContentScope
+import androidx.compose.animation.ExperimentalSharedTransitionApi
+import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.WindowInsets
@@ -29,9 +32,11 @@ import com.github.masato1230.githubclienet.domain.model.GitHubUser
 import com.github.masato1230.githubclienet.presentation.components.error.CommunicationErrorView
 import com.github.masato1230.githubclienet.presentation.screens.home.components.HomeGitHubUserListItem
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalSharedTransitionApi::class)
 @Composable
 internal fun HomeScreen(
+    sharedTransitionScope: SharedTransitionScope,
+    animatedContentScope: AnimatedContentScope,
     onClickUser: (GitHubUser) -> Unit,
     viewModel: HiltViewModel = hiltViewModel(),
 ) {
@@ -80,6 +85,8 @@ internal fun HomeScreen(
             is LoadState.NotLoading -> {
                 HomeContent(
                     pagingUsers = pagingUsers,
+                    sharedTransitionScope = sharedTransitionScope,
+                    animatedContentScope = animatedContentScope,
                     onClickUser = onClickUser,
                     modifier = Modifier.padding(paddingValues),
                 )
@@ -88,9 +95,12 @@ internal fun HomeScreen(
     }
 }
 
+@OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
 private fun HomeContent(
     pagingUsers: LazyPagingItems<GitHubUser>,
+    sharedTransitionScope: SharedTransitionScope,
+    animatedContentScope: AnimatedContentScope,
     onClickUser: (GitHubUser) -> Unit,
     modifier: Modifier,
 ) {
@@ -109,6 +119,8 @@ private fun HomeContent(
             val user = pagingUsers[it] ?: return@items
             HomeGitHubUserListItem(
                 user = user,
+                sharedTransitionScope = sharedTransitionScope,
+                animatedContentScope = animatedContentScope,
                 onClick = { onClickUser(user) },
             )
         }

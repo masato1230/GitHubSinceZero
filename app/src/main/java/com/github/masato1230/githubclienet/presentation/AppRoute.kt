@@ -10,14 +10,14 @@ sealed class AppRoute {
 
     @Serializable
     data class UserDetail(
-        @SerialName(KEY_USER_NAME)
-        val userName: String,
+        @SerialName(KEY_USER_LOGIN)
+        val userLogin: String,
         @SerialName(KEY_AVATAR_URL)
         val avatarUrl: String,
     ) : AppRoute() {
 
         companion object {
-            const val KEY_USER_NAME = "userName"
+            const val KEY_USER_LOGIN = "userLogin"
             const val KEY_AVATAR_URL = "avatarUrl"
         }
     }

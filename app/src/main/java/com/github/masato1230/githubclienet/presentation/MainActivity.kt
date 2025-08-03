@@ -4,6 +4,8 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.animation.ExperimentalSharedTransitionApi
+import androidx.compose.animation.SharedTransitionLayout
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -14,32 +16,40 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+
+    @OptIn(ExperimentalSharedTransitionApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
             GitHubClienetTheme {
-                val navController = rememberNavController()
-                NavHost(navController = navController, startDestination = AppRoute.Home) {
-                    composable<AppRoute.Home> {
-                        HomeScreen(
-                            onClickUser = {
-                                navController.navigate(
-                                    AppRoute.UserDetail(
-                                        userName = it.name,
-                                        avatarUrl = it.avatarUrl,
+                SharedTransitionLayout {
+                    val navController = rememberNavController()
+                    NavHost(navController = navController, startDestination = AppRoute.Home) {
+                        composable<AppRoute.Home> {
+                            HomeScreen(
+                                sharedTransitionScope = this@SharedTransitionLayout,
+                                animatedContentScope = this@composable,
+                                onClickUser = {
+                                    navController.navigate(
+                                        AppRoute.UserDetail(
+                                            userLogin = it.login,
+                                            avatarUrl = it.avatarUrl,
+                                        )
                                     )
-                                )
-                            }
-                        )
-                    }
+                                }
+                            )
+                        }
 
-                    composable<AppRoute.UserDetail> { backEntry ->
-                        UserDetailScreen(
-                            onClickBack = {
-                                navController.popBackStack()
-                            }
-                        )
+                        composable<AppRoute.UserDetail> { backEntry ->
+                            UserDetailScreen(
+                                sharedTransitionScope = this@SharedTransitionLayout,
+                                animatedContentScope = this@composable,
+                                onClickBack = {
+                                    navController.popBackStack()
+                                }
+                            )
+                        }
                     }
                 }
             }

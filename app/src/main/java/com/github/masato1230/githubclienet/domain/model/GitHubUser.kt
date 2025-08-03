@@ -2,7 +2,7 @@ package com.github.masato1230.githubclienet.domain.model
 
 data class GitHubUser(
     val id: Int,
-    val name: String,
+    val login: String,
     val avatarUrl: String,
 ) {
 
@@ -10,7 +10,7 @@ data class GitHubUser(
 
         fun createDummy() = GitHubUser(
             id = 1,
-            name = "octocat",
+            login = "octocat",
             avatarUrl = "https://picsum.photos/200/200",
         )
     }

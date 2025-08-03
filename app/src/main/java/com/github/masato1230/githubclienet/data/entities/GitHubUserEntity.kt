@@ -58,7 +58,7 @@ data class GitHubUserEntity(
     fun toModel(): GitHubUser {
         return GitHubUser(
             id = id,
-            name = login,
+            login = login,
             avatarUrl = avatarUrl,
         )
     }

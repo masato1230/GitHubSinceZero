@@ -6,5 +6,6 @@
     <string name="retry">リトライ</string>
 
     <!-- content description -->
+    <string name="content_description_back_button">戻るボタン</string>
     <string name="content_description_user_avatar_image">ユーザーのアバター画像</string>
 </resources>

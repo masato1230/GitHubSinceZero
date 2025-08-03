@@ -10,6 +10,6 @@ import javax.inject.Inject
 internal class UserDetailViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
-    val userName = requireNotNull(savedStateHandle.get<String>(AppRoute.UserDetail.KEY_USER_NAME))
+    val userLogin = requireNotNull(savedStateHandle.get<String>(AppRoute.UserDetail.KEY_USER_LOGIN))
     val avatarUrl = requireNotNull(savedStateHandle.get<String>(AppRoute.UserDetail.KEY_AVATAR_URL))
 }
