@@ -8,6 +8,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.github.masato1230.githubclienet.presentation.screens.home.HomeScreen
+import com.github.masato1230.githubclienet.presentation.screens.userdetail.UserDetailScreen
 import com.github.masato1230.githubclienet.presentation.theme.GitHubClienetTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -21,7 +22,24 @@ class MainActivity : ComponentActivity() {
                 val navController = rememberNavController()
                 NavHost(navController = navController, startDestination = AppRoute.Home) {
                     composable<AppRoute.Home> {
-                        HomeScreen()
+                        HomeScreen(
+                            onClickUser = {
+                                navController.navigate(
+                                    AppRoute.UserDetail(
+                                        userName = it.name,
+                                        avatarUrl = it.avatarUrl,
+                                    )
+                                )
+                            }
+                        )
+                    }
+
+                    composable<AppRoute.UserDetail> { backEntry ->
+                        UserDetailScreen(
+                            onClickBack = {
+                                navController.popBackStack()
+                            }
+                        )
                     }
                 }
             }

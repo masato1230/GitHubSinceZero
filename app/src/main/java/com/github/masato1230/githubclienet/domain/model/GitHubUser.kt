@@ -10,7 +10,7 @@ data class GitHubUser(
 
         fun createDummy() = GitHubUser(
             id = 1,
-            name = "John Doe",
+            name = "octocat",
             avatarUrl = "https://picsum.photos/200/200",
         )
     }

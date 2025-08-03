@@ -32,6 +32,7 @@ import com.github.masato1230.githubclienet.presentation.screens.home.components.
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun HomeScreen(
+    onClickUser: (GitHubUser) -> Unit,
     viewModel: HiltViewModel = hiltViewModel(),
 ) {
     val pagingUsers = viewModel.users.collectAsLazyPagingItems()
@@ -79,6 +80,7 @@ internal fun HomeScreen(
             is LoadState.NotLoading -> {
                 HomeContent(
                     pagingUsers = pagingUsers,
+                    onClickUser = onClickUser,
                     modifier = Modifier.padding(paddingValues),
                 )
             }
@@ -89,6 +91,7 @@ internal fun HomeScreen(
 @Composable
 private fun HomeContent(
     pagingUsers: LazyPagingItems<GitHubUser>,
+    onClickUser: (GitHubUser) -> Unit,
     modifier: Modifier,
 ) {
     val navigationBarPaddings = WindowInsets.navigationBars.asPaddingValues()
@@ -106,9 +109,7 @@ private fun HomeContent(
             val user = pagingUsers[it] ?: return@items
             HomeGitHubUserListItem(
                 user = user,
-                onClick = {
-                    // TODO
-                },
+                onClick = { onClickUser(user) },
             )
         }
         item(
