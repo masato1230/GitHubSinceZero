@@ -1,5 +1,6 @@
 package com.github.masato1230.githubclienet.presentation.screens.home
 
+import android.util.Log
 import androidx.compose.animation.AnimatedContentScope
 import androidx.compose.animation.ExperimentalSharedTransitionApi
 import androidx.compose.animation.SharedTransitionScope
@@ -19,6 +20,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
@@ -68,6 +70,15 @@ internal fun HomeScreen(
             }
 
             is LoadState.Error -> {
+                LaunchedEffect(
+                    Unit
+                ) {
+                    Log.e(
+                        "HomeScreen",
+                        "Error",
+                        (pagingUsers.loadState.refresh as LoadState.Error).error
+                    )
+                }
                 Box(
                     modifier = Modifier
                         .fillMaxSize()

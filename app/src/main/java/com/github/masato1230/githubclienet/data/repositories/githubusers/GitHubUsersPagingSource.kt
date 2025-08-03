@@ -9,7 +9,7 @@ import io.ktor.client.call.body
 import io.ktor.client.request.get
 
 class GitHubUsersPagingSource(
-    private val perPage: Int = 100,
+    private val perPage: Int = 50,
     private val gitHubHttpClient: HttpClient,
 ) : PagingSource<Int, GitHubUser>() {
 

@@ -1,4 +1,6 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import java.io.FileInputStream
+import java.util.Properties
 
 plugins {
     alias(libs.plugins.android.application)
@@ -7,6 +9,13 @@ plugins {
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.hilt.android)
     alias(libs.plugins.kotlin.serialization)
+}
+
+val secretProperties = Properties().apply {
+    val secretFile = File(rootProject.rootDir, "secret.properties")
+    if (secretFile.exists()) {
+        FileInputStream(secretFile).use { load(it) }
+    }
 }
 
 android {
@@ -31,6 +40,10 @@ android {
                 "proguard-rules.pro"
             )
         }
+        forEach { buildType ->
+            val githubApiKey = secretProperties.getProperty("GITHUB_TOKEN", "")
+            buildType.buildConfigField("String", "GITHUB_TOKEN", "\"$githubApiKey\"")
+        }
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
@@ -43,6 +56,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
 }
 

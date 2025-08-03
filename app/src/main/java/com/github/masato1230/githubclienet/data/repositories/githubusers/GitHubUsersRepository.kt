@@ -18,5 +18,5 @@ interface GitHubUsersRepository {
      */
     suspend fun fetchUserDetail(
         login: String,
-    ) : GitHubUserDetail
+    ): GitHubUserDetail
 }

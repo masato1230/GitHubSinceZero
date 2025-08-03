@@ -5,6 +5,7 @@ import androidx.compose.animation.AnimatedContentScope
 import androidx.compose.animation.ExperimentalSharedTransitionApi
 import androidx.compose.animation.SharedTransitionLayout
 import androidx.compose.animation.SharedTransitionScope
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
@@ -17,6 +18,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -41,27 +43,31 @@ fun UserDetailTopAppBar(
     with(sharedTransitionScope) {
         TopAppBar(
             title = {
-                UserAvatar(
-                    login = login,
-                    avatarUrl = avatarUrl,
-                    size = 40.dp,
-                    modifier = Modifier.sharedElement(
-                        sharedContentState = sharedTransitionScope.rememberSharedContentState(
-                            key = SharedTransitionKey.UserDetailAvatar(login = login).key,
-                        ),
-                        animatedVisibilityScope = animatedContentScope,
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    UserAvatar(
+                        login = login,
+                        avatarUrl = avatarUrl,
+                        size = 40.dp,
+                        modifier = Modifier.sharedElement(
+                            sharedContentState = sharedTransitionScope.rememberSharedContentState(
+                                key = SharedTransitionKey.UserDetailAvatar(login = login).key,
+                            ),
+                            animatedVisibilityScope = animatedContentScope,
+                        )
                     )
-                )
-                Spacer(modifier = Modifier.width(16.dp))
-                Text(
-                    text = login,
-                    modifier = Modifier.sharedElement(
-                        sharedContentState = sharedTransitionScope.rememberSharedContentState(
-                            key = SharedTransitionKey.UserDetailLogin(login = login).key,
+                    Spacer(modifier = Modifier.width(16.dp))
+                    Text(
+                        text = login,
+                        modifier = Modifier.sharedElement(
+                            sharedContentState = sharedTransitionScope.rememberSharedContentState(
+                                key = SharedTransitionKey.UserDetailLogin(login = login).key,
+                            ),
+                            animatedVisibilityScope = animatedContentScope,
                         ),
-                        animatedVisibilityScope = animatedContentScope,
-                    ),
-                )
+                    )
+                }
             },
             navigationIcon = {
                 IconButton(
