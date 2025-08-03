@@ -19,4 +19,8 @@ interface GitHubUsersRepository {
     suspend fun fetchUserDetail(
         login: String,
     ): GitHubUserDetail
+
+    suspend fun fetchUserEvents(
+        login: String,
+    ) : String
 }

@@ -3,8 +3,10 @@ package com.github.masato1230.githubclienet.presentation.screens.userdetail
 import androidx.compose.animation.AnimatedContentScope
 import androidx.compose.animation.ExperimentalSharedTransitionApi
 import androidx.compose.animation.SharedTransitionScope
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -22,6 +24,7 @@ import com.github.masato1230.githubclienet.domain.model.GitHubUserSection
 import com.github.masato1230.githubclienet.presentation.components.error.CommunicationErrorView
 import com.github.masato1230.githubclienet.presentation.screens.userdetail.components.UserDetailTopAppBar
 import com.github.masato1230.githubclienet.presentation.screens.userdetail.sections.UserDetailBaseSection
+import com.github.masato1230.githubclienet.presentation.screens.userdetail.sections.UserDetailEventsSection
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalSharedTransitionApi::class)
 @Composable
@@ -77,6 +80,7 @@ internal fun UserDetailScreen(
 
             is UserDetailState.ShowList -> {
                 UserDetailContent(
+                    isLoadingMore = state.isLoadingMore,
                     sections = state.sections,
                     modifier = Modifier.padding(paddingValues),
                 )
@@ -87,17 +91,41 @@ internal fun UserDetailScreen(
 
 @Composable
 private fun UserDetailContent(
+    isLoadingMore: Boolean,
     sections: List<GitHubUserSection>,
     modifier: Modifier,
 ) {
-    LazyColumn(modifier = modifier) {
-        items(sections) { section ->
+    LazyColumn(
+        modifier = modifier,
+        verticalArrangement = Arrangement.spacedBy(20.dp),
+    ) {
+        items(
+            sections,
+            key = { it::class.simpleName.toString() }
+        ) { section ->
             when (section) {
                 is GitHubUserSection.BaseSection -> {
                     UserDetailBaseSection(
                         userDetail = section.userDetail,
                     )
                 }
+
+                is GitHubUserSection.EventsSection -> {
+                    UserDetailEventsSection(
+                        eventsResult = section.events,
+                    )
+                }
+            }
+        }
+
+        item(
+            key = "loading_indicator",
+        ) {
+            Box(
+                modifier = Modifier.fillMaxWidth().padding(top = 48.dp),
+                contentAlignment = Alignment.Center,
+            ) {
+                CircularProgressIndicator()
             }
         }
     }

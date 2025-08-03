@@ -38,7 +38,7 @@ object DataModule {
                 )
             }
             install(HttpTimeout) {
-                connectTimeoutMillis = 5_000
+                connectTimeoutMillis = 10_000
                 socketTimeoutMillis = 20_000
                 requestTimeoutMillis = 30_00
             }

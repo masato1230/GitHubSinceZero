@@ -43,7 +43,8 @@ internal class UserDetailViewModel @Inject constructor(
                 _state.value = UserDetailState.Error
             }.collect {
                 _state.value = UserDetailState.ShowList(
-                    sections = it,
+                    sections = it.first.toList(),
+                    isLoadingMore = it.second
                 )
             }
         }

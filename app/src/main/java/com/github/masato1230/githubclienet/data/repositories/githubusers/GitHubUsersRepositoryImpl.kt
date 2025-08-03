@@ -1,12 +1,11 @@
 package com.github.masato1230.githubclienet.data.repositories.githubusers
 
 import com.github.masato1230.githubclienet.data.entities.GitHubUserDetailEntity
-import com.github.masato1230.githubclienet.data.entities.GitHubUserEntity
-import com.github.masato1230.githubclienet.domain.model.GitHubUser
 import com.github.masato1230.githubclienet.domain.model.GitHubUserDetail
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get
+import io.ktor.client.statement.bodyAsText
 import javax.inject.Inject
 
 internal class GitHubUsersRepositoryImpl @Inject constructor(
@@ -22,5 +21,10 @@ internal class GitHubUsersRepositoryImpl @Inject constructor(
     override suspend fun fetchUserDetail(login: String): GitHubUserDetail {
         val response = gitHubHttpClient.get("users/$login").body<GitHubUserDetailEntity>()
         return response.toModel()
+    }
+
+    override suspend fun fetchUserEvents(login: String): String {
+        val response = gitHubHttpClient.get("users/$login/events/public").bodyAsText()
+        return response
     }
 }
