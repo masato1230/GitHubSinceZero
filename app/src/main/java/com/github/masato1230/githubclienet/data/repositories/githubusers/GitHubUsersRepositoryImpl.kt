@@ -26,7 +26,11 @@ internal class GitHubUsersRepositoryImpl @Inject constructor(
     }
 
     override suspend fun fetchUserRepositories(login: String): List<GitHubRepositoryModel> {
-        val response = gitHubHttpClient.get("users/$login/repos").body<List<GitHubRepositoryEntity>>()
+        val response = gitHubHttpClient.get("users/$login/repos") {
+            url {
+                parameters.append("sort", "updated_at")
+            }
+        }.body<List<GitHubRepositoryEntity>>()
         return response.map {
             it.toModel()
         }

@@ -20,6 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.github.masato1230.githubclienet.domain.model.GitHubRepositoryModel
 import com.github.masato1230.githubclienet.domain.model.GitHubUserSection
 import com.github.masato1230.githubclienet.presentation.components.error.CommunicationErrorView
 import com.github.masato1230.githubclienet.presentation.screens.userdetail.components.UserDetailTopAppBar
@@ -34,6 +35,7 @@ internal fun UserDetailScreen(
     animatedContentScope: AnimatedContentScope,
     viewModel: UserDetailViewModel = hiltViewModel(),
     onClickBack: () -> Unit,
+    onClickRepository: (GitHubRepositoryModel) -> Unit,
 ) {
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
 
@@ -84,6 +86,7 @@ internal fun UserDetailScreen(
                     isCompletedLoading = state.isCompeletedLoading,
                     sections = state.sections,
                     modifier = Modifier.padding(paddingValues),
+                    onClickRepository = onClickRepository,
                 )
             }
         }
@@ -95,6 +98,7 @@ private fun UserDetailContent(
     isCompletedLoading: Boolean,
     sections: List<GitHubUserSection>,
     modifier: Modifier,
+    onClickRepository: (GitHubRepositoryModel) -> Unit,
 ) {
     LazyColumn(
         modifier = modifier,
@@ -114,6 +118,7 @@ private fun UserDetailContent(
                 is GitHubUserSection.RepositoriesSection -> {
                     UserDetailRepositoriesSection(
                         repositoriesResult = section.repositories,
+                        onClickRepository = onClickRepository,
                     )
                 }
 

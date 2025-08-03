@@ -39,6 +39,7 @@ import com.github.masato1230.githubclienet.presentation.utils.CustomDateFormatte
 @Composable
 internal fun UserDetailRepositoriesSection(
     repositoriesResult: Result<List<GitHubRepositoryModel>>,
+    onClickRepository: (GitHubRepositoryModel) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -59,6 +60,7 @@ internal fun UserDetailRepositoriesSection(
                     key = { it.fullName },
                 ) { repository ->
                     Card(
+                        onClick = { onClickRepository(repository) },
                         modifier = Modifier.size(width = 240.dp, height = 300.dp),
                     ) {
                         Column(
@@ -152,7 +154,8 @@ internal fun UserDetailRepositoriesSection(
 private fun PreviewUserDetailRepositoriesSection() {
     GitHubClienetTheme {
         UserDetailRepositoriesSection(
-            repositoriesResult = Result.success(listOf(GitHubRepositoryModel.createDummy()))
+            repositoriesResult = Result.success(listOf(GitHubRepositoryModel.createDummy())),
+            onClickRepository = {},
         )
     }
 }
@@ -162,7 +165,8 @@ private fun PreviewUserDetailRepositoriesSection() {
 private fun PreviewUserDetailRepositoriesSection_Failure() {
     GitHubClienetTheme {
         UserDetailRepositoriesSection(
-            repositoriesResult = Result.failure(Exception())
+            repositoriesResult = Result.failure(Exception()),
+            onClickRepository = {},
         )
     }
 }

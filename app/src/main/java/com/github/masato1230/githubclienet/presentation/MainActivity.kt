@@ -4,8 +4,10 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.browser.customtabs.CustomTabsIntent
 import androidx.compose.animation.ExperimentalSharedTransitionApi
 import androidx.compose.animation.SharedTransitionLayout
+import androidx.core.net.toUri
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -47,6 +49,13 @@ class MainActivity : ComponentActivity() {
                                 animatedContentScope = this@composable,
                                 onClickBack = {
                                     navController.navigateUp()
+                                },
+                                onClickRepository = { repository ->
+                                    val customTabsIntent = CustomTabsIntent.Builder().build()
+                                    customTabsIntent.launchUrl(
+                                        this@MainActivity,
+                                        repository.htmlUrl.toUri()
+                                    )
                                 }
                             )
                         }
