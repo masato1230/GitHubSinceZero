@@ -46,7 +46,7 @@ class MainActivity : ComponentActivity() {
                                 sharedTransitionScope = this@SharedTransitionLayout,
                                 animatedContentScope = this@composable,
                                 onClickBack = {
-                                    navController.popBackStack()
+                                    navController.navigateUp()
                                 }
                             )
                         }
