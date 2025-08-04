@@ -1,14 +1,14 @@
 package com.github.masato1230.githubclienet.presentation.screens.userdetail
 
-import com.github.masato1230.githubclienet.domain.model.GitHubUserSection
+import com.github.masato1230.githubclienet.presentation.screens.userdetail.states.UserDetailListItemState
 
 internal sealed class UserDetailState {
 
     data object BaseLoading : UserDetailState()
 
     data class ShowList(
-        val sections: List<GitHubUserSection>,
-        val isCompeletedLoading: Boolean,
+        val listItems: List<UserDetailListItemState>,
+        val isLoadingCompleted: Boolean,
     ) : UserDetailState()
 
     data object Error : UserDetailState()

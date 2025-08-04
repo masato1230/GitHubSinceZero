@@ -2,9 +2,10 @@ package com.github.masato1230.githubclienet.presentation.screens.userdetail.sect
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListScope
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -13,32 +14,38 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.github.masato1230.githubclienet.R
+import com.github.masato1230.githubclienet.domain.model.GitHubEvent
 import com.github.masato1230.githubclienet.presentation.screens.userdetail.sections.comopnents.UserDetailSectionErrorText
 import com.github.masato1230.githubclienet.presentation.screens.userdetail.sections.comopnents.UserDetailSectionTitle
 import com.github.masato1230.githubclienet.presentation.theme.GitHubClienetTheme
 
-@Composable
-internal fun UserDetailEventsSection(
-    eventsResult: Result<String>,
-    modifier: Modifier = Modifier,
+internal fun LazyListScope.UserDetailEventsSection(
+    eventsResult: Result<List<GitHubEvent>>,
 ) {
-    Column(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(horizontal = 24.dp),
+    item(
+        key = "events_title",
     ) {
         UserDetailSectionTitle(
             title = stringResource(id = R.string.user_detail_recent_activities),
         )
-        eventsResult.onSuccess { events ->
+    }
+
+    eventsResult.onSuccess { events ->
+        items(events) { event ->
             Text(
-                text = events,
+                text = event.toString(),
             )
-        }.onFailure {
-            Spacer(modifier = Modifier.height(8.dp))
-            UserDetailSectionErrorText(
-                modifier = Modifier.align(Alignment.CenterHorizontally),
-            )
+        }
+    }.onFailure {
+        item(
+            key = "events_error",
+        ) {
+            Column {
+                Spacer(modifier = Modifier.height(8.dp))
+                UserDetailSectionErrorText(
+                    modifier = Modifier.align(Alignment.CenterHorizontally),
+                )
+            }
         }
     }
 }
@@ -47,7 +54,15 @@ internal fun UserDetailEventsSection(
 @Composable
 private fun PreviewUserDetailEventsSection() {
     GitHubClienetTheme {
-        UserDetailEventsSection(eventsResult = Result.success(""))
+        LazyColumn {
+            UserDetailEventsSection(
+                eventsResult = Result.success(
+                    listOf(
+                        GitHubEvent.createDummy(),
+                    )
+                )
+            )
+        }
     }
 }
 
@@ -55,6 +70,9 @@ private fun PreviewUserDetailEventsSection() {
 @Composable
 private fun PreviewUserDetailEventsSectionFailed() {
     GitHubClienetTheme {
-        UserDetailEventsSection(eventsResult = Result.failure(Exception()))
+        LazyColumn {
+            UserDetailEventsSection(eventsResult = Result.failure(Exception()))
+
+        }
     }
 }

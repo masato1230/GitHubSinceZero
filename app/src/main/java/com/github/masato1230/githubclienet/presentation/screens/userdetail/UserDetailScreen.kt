@@ -18,15 +18,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.github.masato1230.githubclienet.R
 import com.github.masato1230.githubclienet.domain.model.GitHubRepositoryModel
-import com.github.masato1230.githubclienet.domain.model.GitHubUserSection
 import com.github.masato1230.githubclienet.presentation.components.error.CommunicationErrorView
 import com.github.masato1230.githubclienet.presentation.screens.userdetail.components.UserDetailTopAppBar
 import com.github.masato1230.githubclienet.presentation.screens.userdetail.sections.UserDetailBaseSection
-import com.github.masato1230.githubclienet.presentation.screens.userdetail.sections.UserDetailEventsSection
-import com.github.masato1230.githubclienet.presentation.screens.userdetail.sections.UserDetailRepositoriesSection
+import com.github.masato1230.githubclienet.presentation.screens.userdetail.sections.comopnents.UserDetailSectionErrorText
+import com.github.masato1230.githubclienet.presentation.screens.userdetail.sections.comopnents.UserDetailSectionTitle
+import com.github.masato1230.githubclienet.presentation.screens.userdetail.states.UserDetailListItemState
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalSharedTransitionApi::class)
 @Composable
@@ -83,8 +85,8 @@ internal fun UserDetailScreen(
 
             is UserDetailState.ShowList -> {
                 UserDetailContent(
-                    isCompletedLoading = state.isCompeletedLoading,
-                    sections = state.sections,
+                    isCompletedLoading = state.isLoadingCompleted,
+                    listItems = state.listItems,
                     modifier = Modifier.padding(paddingValues),
                     onClickRepository = onClickRepository,
                 )
@@ -96,7 +98,7 @@ internal fun UserDetailScreen(
 @Composable
 private fun UserDetailContent(
     isCompletedLoading: Boolean,
-    sections: List<GitHubUserSection>,
+    listItems: List<UserDetailListItemState>,
     modifier: Modifier,
     onClickRepository: (GitHubRepositoryModel) -> Unit,
 ) {
@@ -105,27 +107,33 @@ private fun UserDetailContent(
         verticalArrangement = Arrangement.spacedBy(20.dp),
     ) {
         items(
-            sections,
-            key = { it::class.simpleName.toString() }
-        ) { section ->
-            when (section) {
-                is GitHubUserSection.BaseSection -> {
+            listItems,
+            key = { it.key }
+        ) { listItem ->
+            when (listItem) {
+                is UserDetailListItemState.UserDetail -> {
                     UserDetailBaseSection(
-                        userDetail = section.userDetail,
+                        userDetail = listItem.userDetail,
                     )
                 }
-
-                is GitHubUserSection.RepositoriesSection -> {
-                    UserDetailRepositoriesSection(
-                        repositoriesResult = section.repositories,
-                        onClickRepository = onClickRepository,
+                is UserDetailListItemState.RepositorySectionTitle -> {
+                    UserDetailSectionTitle(
+                        title = stringResource(id = R.string.user_detail_repository),
                     )
                 }
-
-                is GitHubUserSection.EventsSection -> {
-                    UserDetailEventsSection(
-                        eventsResult = section.events,
+                is UserDetailListItemState.Repositories -> {
+                    // TODO
+                }
+                is UserDetailListItemState.EventSectionTitle -> {
+                    UserDetailSectionTitle(
+                        title = stringResource(id = R.string.user_detail_recent_activities),
                     )
+                }
+                is UserDetailListItemState.Event -> {
+                    // TODO
+                }
+                is UserDetailListItemState.Error -> {
+                    UserDetailSectionErrorText()
                 }
             }
         }

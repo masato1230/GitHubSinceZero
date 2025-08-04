@@ -360,6 +360,7 @@ sealed class GitHubEventEntity {
                 val commitSha = payload.comment.id
                 val destinationUrl = "https://github.com/${repoName}/commit/${commitSha}"
                 GitHubEvent(
+                    id = id,
                     title = title,
                     text = text,
                     destinationUrl = destinationUrl,
@@ -380,6 +381,7 @@ sealed class GitHubEventEntity {
                     else -> "https://github.com/${repoName}"
                 }
                 GitHubEvent(
+                    id = id,
                     title = title,
                     text = text,
                     destinationUrl = destinationUrl,
@@ -392,8 +394,9 @@ sealed class GitHubEventEntity {
                 val text = "${payload.refType}を削除しました"
                 val destinationUrl = "https://github.com/${repoName}"
                 GitHubEvent(
+                    id = id,
                     title = title,
-                    text = "",
+                    text = text,
                     destinationUrl = destinationUrl,
                     date = createdAt
                 )
@@ -404,6 +407,7 @@ sealed class GitHubEventEntity {
                 val text = "新しいリポジトリ: `${payload.forkee.fullName}`"
                 val destinationUrl = "https://github.com/${payload.forkee.fullName}"
                 GitHubEvent(
+                    id = id,
                     title = title,
                     text = text,
                     destinationUrl = destinationUrl,
@@ -416,6 +420,7 @@ sealed class GitHubEventEntity {
                 val text = "Issue「${payload.issue.title}」へのコメント: ${payload.comment.body.take(100)}..."
                 val destinationUrl = "https://github.com/${repoName}/issues/${payload.issue.number}"
                 GitHubEvent(
+                    id = id,
                     title = title,
                     text = text,
                     destinationUrl = destinationUrl,
@@ -435,6 +440,7 @@ sealed class GitHubEventEntity {
                 val text = "Issueタイトル: `${payload.issue.title}`"
                 val destinationUrl = "https://github.com/${repoName}/issues/${payload.issue.number}"
                 GitHubEvent(
+                    id = id,
                     title = title,
                     text = text,
                     destinationUrl = destinationUrl,
@@ -454,6 +460,7 @@ sealed class GitHubEventEntity {
                 val text = "PRタイトル: `${payload.pullRequest.title}`"
                 val destinationUrl = "https://github.com/${repoName}/pull/${payload.pullRequest.number}"
                 GitHubEvent(
+                    id = id,
                     title = title,
                     text = text,
                     destinationUrl = destinationUrl,
@@ -466,6 +473,7 @@ sealed class GitHubEventEntity {
                 val text = "PRタイトル: `${payload.pullRequest.title}`\nレビュー内容: ${payload.review.body.take(100)}..."
                 val destinationUrl = "https://github.com/${repoName}/pull/${payload.pullRequest.number}"
                 GitHubEvent(
+                    id = id,
                     title = title,
                     text = text,
                     destinationUrl = destinationUrl,
@@ -478,6 +486,7 @@ sealed class GitHubEventEntity {
                 val text = "PRタイトル: `${payload.pullRequest.title}`\nコメント内容: ${payload.comment.body.take(100)}..."
                 val destinationUrl = "https://github.com/${repoName}/pull/${payload.pullRequest.number}"
                 GitHubEvent(
+                    id = id,
                     title = title,
                     text = text,
                     destinationUrl = destinationUrl,
@@ -492,6 +501,7 @@ sealed class GitHubEventEntity {
                 val text = "${commitCount}個のコミットをプッシュしました。\n最新のコミットメッセージ: `${payload.commits.firstOrNull()?.message?.take(100)}...`"
                 val destinationUrl = "https://github.com/${repoName}/tree/${branchName}"
                 GitHubEvent(
+                    id = id,
                     title = title,
                     text = text,
                     destinationUrl = destinationUrl,
@@ -509,6 +519,7 @@ sealed class GitHubEventEntity {
                 val text = payload.release.name ?: "タイトルなし"
                 val destinationUrl = "https://github.com/${repoName}/releases/tag/${payload.release.tagName}"
                 GitHubEvent(
+                    id = id,
                     title = title,
                     text = text,
                     destinationUrl = destinationUrl,
@@ -521,6 +532,7 @@ sealed class GitHubEventEntity {
                 val text = "お気に入りのリポジトリとして登録しました"
                 val destinationUrl = "https://github.com/${repoName}"
                 GitHubEvent(
+                    id = id,
                     title = title,
                     text = text,
                     destinationUrl = destinationUrl,
@@ -531,6 +543,7 @@ sealed class GitHubEventEntity {
             is OtherEvent -> {
                 val destinationUrl = "https://github.com/${repoName}"
                 GitHubEvent(
+                    id = id,
                     title = "$repoName で未知の活動を行いました",
                     text = "",
                     destinationUrl = destinationUrl,

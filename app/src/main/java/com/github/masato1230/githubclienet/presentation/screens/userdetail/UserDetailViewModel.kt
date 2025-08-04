@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.github.masato1230.githubclienet.domain.usecases.GetGitHubUserDetailUseCase
 import com.github.masato1230.githubclienet.presentation.AppRoute
+import com.github.masato1230.githubclienet.presentation.screens.userdetail.states.UserDetailListItemState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
@@ -43,8 +44,8 @@ internal class UserDetailViewModel @Inject constructor(
                 _state.value = UserDetailState.Error
             }.collect {
                 _state.value = UserDetailState.ShowList(
-                    sections = it.first.toList(),
-                    isCompeletedLoading = it.second
+                    listItems = UserDetailListItemState.fromModels(it.first),
+                    isLoadingCompleted = it.second
                 )
             }
         }
