@@ -1,13 +1,14 @@
 package com.github.masato1230.githubclienet.data.repositories.githubusers
 
+import com.github.masato1230.githubclienet.data.entities.GitHubEventEntity
 import com.github.masato1230.githubclienet.data.entities.GitHubRepositoryEntity
 import com.github.masato1230.githubclienet.data.entities.GitHubUserDetailEntity
+import com.github.masato1230.githubclienet.domain.model.GitHubEvent
 import com.github.masato1230.githubclienet.domain.model.GitHubRepositoryModel
 import com.github.masato1230.githubclienet.domain.model.GitHubUserDetail
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get
-import io.ktor.client.statement.bodyAsText
 import javax.inject.Inject
 
 internal class GitHubUsersRepositoryImpl @Inject constructor(
@@ -36,8 +37,10 @@ internal class GitHubUsersRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun fetchUserEvents(login: String): String {
-        val response = gitHubHttpClient.get("users/$login/events/public").bodyAsText()
-        return response
+    override suspend fun fetchUserEvents(login: String): List<GitHubEvent> {
+        val response = gitHubHttpClient.get("users/$login/events/public").body<List<GitHubEventEntity>>()
+        return response.map {
+            it.toModel()
+        }
     }
 }

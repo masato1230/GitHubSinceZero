@@ -15,7 +15,7 @@ data class GitHubRepositoryEntity(
     val name: String,
     @SerialName("full_name")
     val fullName: String,
-    val owner: GitHubOwnerDto,
+    val owner: GitHubOwnerEntity,
     val description: String?,
     @SerialName("fork")
     val isFork: Boolean,
@@ -40,13 +40,6 @@ data class GitHubRepositoryEntity(
     @SerialName("html_url")
     val htmlUrl: String,
 ) {
-    @Serializable
-    data class GitHubOwnerDto(
-        val id: Int,
-        val login: String,
-        @SerialName("node_id") val nodeId: String,
-        @SerialName("avatar_url") val avatarUrl: String,
-    )
 
     fun toModel(): GitHubRepositoryModel {
         return  GitHubRepositoryModel(

@@ -1,5 +1,6 @@
 package com.github.masato1230.githubclienet.domain.usecases
 
+import android.util.Log
 import com.github.masato1230.githubclienet.data.repositories.githubusers.GitHubUsersRepository
 import com.github.masato1230.githubclienet.domain.model.GitHubUserSection
 import kotlinx.coroutines.Dispatchers
@@ -32,15 +33,17 @@ class GetGitHubUserDetailUseCase @Inject constructor(
                             gitHubUsersRepository.fetchUserRepositories(login = login)
                         GitHubUserSection.RepositoriesSection(repositories = Result.success(repositories))
                     } catch (e: Exception) {
+                        Log.e("GetGitHubUserDetailUseCase", "repositoriesSectionDeferred: ", e)
                         GitHubUserSection.RepositoriesSection(repositories = Result.failure(e))
                     }
                 }
                 // start fetching events
                 val eventsSectionDeferred = async {
                     return@async try {
-                        val events = gitHubUsersRepository.fetchUserEvents(login = login)
+                        val events = gitHubUsersRepository.fetchUserEvents(login = login).toString()
                         GitHubUserSection.EventsSection(events = Result.success(events))
                     } catch (e: Exception) {
+                        Log.e("GetGitHubUserDetailUseCase", "eventsSectionDeferred: ", e)
                         GitHubUserSection.EventsSection(events = Result.failure(e))
                     }
                 }

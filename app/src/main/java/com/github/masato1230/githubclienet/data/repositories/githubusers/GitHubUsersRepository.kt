@@ -1,5 +1,6 @@
 package com.github.masato1230.githubclienet.data.repositories.githubusers
 
+import com.github.masato1230.githubclienet.domain.model.GitHubEvent
 import com.github.masato1230.githubclienet.domain.model.GitHubRepositoryModel
 import com.github.masato1230.githubclienet.domain.model.GitHubUserDetail
 
@@ -27,5 +28,5 @@ interface GitHubUsersRepository {
 
     suspend fun fetchUserEvents(
         login: String,
-    ) : String
+    ) : List<GitHubEvent>
 }
