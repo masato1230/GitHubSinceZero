@@ -3,8 +3,8 @@ package com.github.masato1230.githubclienet.presentation.screens.userdetail
 import androidx.compose.animation.AnimatedContentScope
 import androidx.compose.animation.ExperimentalSharedTransitionApi
 import androidx.compose.animation.SharedTransitionScope
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -15,6 +15,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
@@ -22,12 +23,15 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.github.masato1230.githubclienet.R
+import com.github.masato1230.githubclienet.domain.model.GitHubEvent
 import com.github.masato1230.githubclienet.domain.model.GitHubRepositoryModel
 import com.github.masato1230.githubclienet.presentation.components.error.CommunicationErrorView
 import com.github.masato1230.githubclienet.presentation.screens.userdetail.components.UserDetailTopAppBar
-import com.github.masato1230.githubclienet.presentation.screens.userdetail.sections.UserDetailBaseSection
-import com.github.masato1230.githubclienet.presentation.screens.userdetail.sections.comopnents.UserDetailSectionErrorText
-import com.github.masato1230.githubclienet.presentation.screens.userdetail.sections.comopnents.UserDetailSectionTitle
+import com.github.masato1230.githubclienet.presentation.screens.userdetail.listitems.UserDetailBaseListItem
+import com.github.masato1230.githubclienet.presentation.screens.userdetail.listitems.UserDetailEventListItem
+import com.github.masato1230.githubclienet.presentation.screens.userdetail.listitems.UserDetailRepositoriesListItem
+import com.github.masato1230.githubclienet.presentation.screens.userdetail.listitems.UserDetailSectionErrorListItem
+import com.github.masato1230.githubclienet.presentation.screens.userdetail.listitems.UserDetailTitleListItem
 import com.github.masato1230.githubclienet.presentation.screens.userdetail.states.UserDetailListItemState
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalSharedTransitionApi::class)
@@ -38,6 +42,7 @@ internal fun UserDetailScreen(
     viewModel: UserDetailViewModel = hiltViewModel(),
     onClickBack: () -> Unit,
     onClickRepository: (GitHubRepositoryModel) -> Unit,
+    onClickEvent: (GitHubEvent) -> Unit,
 ) {
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
 
@@ -55,7 +60,7 @@ internal fun UserDetailScreen(
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
     ) { paddingValues ->
 
-        when (val state = viewModel.state.value) {
+        when (val state = viewModel.state.collectAsState().value) {
             is UserDetailState.BaseLoading -> {
                 Box(
                     modifier = Modifier
@@ -89,6 +94,7 @@ internal fun UserDetailScreen(
                     listItems = state.listItems,
                     modifier = Modifier.padding(paddingValues),
                     onClickRepository = onClickRepository,
+                    onClickEvent = onClickEvent,
                 )
             }
         }
@@ -101,10 +107,11 @@ private fun UserDetailContent(
     listItems: List<UserDetailListItemState>,
     modifier: Modifier,
     onClickRepository: (GitHubRepositoryModel) -> Unit,
+    onClickEvent: (GitHubEvent) -> Unit,
 ) {
     LazyColumn(
         modifier = modifier,
-        verticalArrangement = Arrangement.spacedBy(20.dp),
+        contentPadding = PaddingValues(bottom = 80.dp),
     ) {
         items(
             listItems,
@@ -112,28 +119,37 @@ private fun UserDetailContent(
         ) { listItem ->
             when (listItem) {
                 is UserDetailListItemState.UserDetail -> {
-                    UserDetailBaseSection(
+                    UserDetailBaseListItem(
                         userDetail = listItem.userDetail,
                     )
                 }
                 is UserDetailListItemState.RepositorySectionTitle -> {
-                    UserDetailSectionTitle(
+                    UserDetailTitleListItem(
                         title = stringResource(id = R.string.user_detail_repository),
+                        modifier = Modifier.padding(top = 20.dp, bottom = 8.dp),
                     )
                 }
                 is UserDetailListItemState.Repositories -> {
-                    // TODO
+                    UserDetailRepositoriesListItem(
+                        repositories = listItem.repositories,
+                        onClickRepository = onClickRepository,
+                    )
                 }
                 is UserDetailListItemState.EventSectionTitle -> {
-                    UserDetailSectionTitle(
+                    UserDetailTitleListItem(
                         title = stringResource(id = R.string.user_detail_recent_activities),
+                        modifier = Modifier.padding(top = 20.dp, bottom = 8.dp),
                     )
                 }
                 is UserDetailListItemState.Event -> {
-                    // TODO
+                    UserDetailEventListItem(
+                        event = listItem.event,
+                        isLastEvent = listItem.isLastEvent,
+                        onClick = onClickEvent,
+                    )
                 }
                 is UserDetailListItemState.Error -> {
-                    UserDetailSectionErrorText()
+                    UserDetailSectionErrorListItem()
                 }
             }
         }

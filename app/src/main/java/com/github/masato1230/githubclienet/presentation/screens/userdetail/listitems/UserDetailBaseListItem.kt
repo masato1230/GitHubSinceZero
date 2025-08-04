@@ -1,4 +1,4 @@
-package com.github.masato1230.githubclienet.presentation.screens.userdetail.sections
+package com.github.masato1230.githubclienet.presentation.screens.userdetail.listitems
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -28,7 +28,7 @@ import com.github.masato1230.githubclienet.presentation.screens.userdetail.compo
 import com.github.masato1230.githubclienet.presentation.theme.GitHubClienetTheme
 
 @Composable
-internal fun UserDetailBaseSection(
+internal fun UserDetailBaseListItem(
     userDetail: GitHubUserDetail,
     modifier: Modifier = Modifier
 ) {
@@ -168,9 +168,9 @@ internal fun UserDetailBaseSection(
 
 @Preview
 @Composable
-private fun PreviewUserDetailBaseSection() {
+private fun PreviewUserDetailBaseListItem() {
     GitHubClienetTheme {
         val userDetail = GitHubUserDetail.createDummy()
-        UserDetailBaseSection(userDetail = userDetail)
+        UserDetailBaseListItem(userDetail = userDetail)
     }
 }

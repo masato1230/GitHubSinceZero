@@ -1,4 +1,4 @@
-package com.github.masato1230.githubclienet.presentation.screens.userdetail.sections
+package com.github.masato1230.githubclienet.presentation.screens.userdetail.listitems
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -15,8 +15,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.github.masato1230.githubclienet.R
 import com.github.masato1230.githubclienet.domain.model.GitHubEvent
-import com.github.masato1230.githubclienet.presentation.screens.userdetail.sections.comopnents.UserDetailSectionErrorText
-import com.github.masato1230.githubclienet.presentation.screens.userdetail.sections.comopnents.UserDetailSectionTitle
 import com.github.masato1230.githubclienet.presentation.theme.GitHubClienetTheme
 
 internal fun LazyListScope.UserDetailEventsSection(
@@ -25,7 +23,7 @@ internal fun LazyListScope.UserDetailEventsSection(
     item(
         key = "events_title",
     ) {
-        UserDetailSectionTitle(
+        UserDetailTitleListItem(
             title = stringResource(id = R.string.user_detail_recent_activities),
         )
     }
@@ -42,7 +40,7 @@ internal fun LazyListScope.UserDetailEventsSection(
         ) {
             Column {
                 Spacer(modifier = Modifier.height(8.dp))
-                UserDetailSectionErrorText(
+                UserDetailSectionErrorListItem(
                     modifier = Modifier.align(Alignment.CenterHorizontally),
                 )
             }

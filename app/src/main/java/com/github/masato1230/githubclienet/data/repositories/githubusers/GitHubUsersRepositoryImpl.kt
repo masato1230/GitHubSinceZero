@@ -39,7 +39,7 @@ internal class GitHubUsersRepositoryImpl @Inject constructor(
 
     override suspend fun fetchUserEvents(login: String): List<GitHubEvent> {
         val response = gitHubHttpClient.get("users/$login/events/public").body<List<GitHubEventEntity>>()
-        return response.map {
+        return response.mapNotNull {
             it.toModel()
         }
     }

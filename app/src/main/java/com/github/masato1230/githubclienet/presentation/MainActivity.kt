@@ -39,7 +39,7 @@ class MainActivity : ComponentActivity() {
                                             avatarUrl = it.avatarUrl,
                                         )
                                     )
-                                }
+                                },
                             )
                         }
 
@@ -55,6 +55,13 @@ class MainActivity : ComponentActivity() {
                                     customTabsIntent.launchUrl(
                                         this@MainActivity,
                                         repository.htmlUrl.toUri()
+                                    )
+                                },
+                                onClickEvent = { event ->
+                                    val customTabsIntent = CustomTabsIntent.Builder().build()
+                                    customTabsIntent.launchUrl(
+                                        this@MainActivity,
+                                        event.destinationUrl.toUri(),
                                     )
                                 }
                             )

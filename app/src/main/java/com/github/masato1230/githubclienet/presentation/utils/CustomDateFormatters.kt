@@ -6,5 +6,5 @@ import java.util.Locale
 object CustomDateFormatters {
 
     val defaultDateTimeFormatter =
-        DateTimeFormatter.ofPattern("MM dd, yyyy HH:mm:ss", Locale.JAPAN)
+        DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss", Locale.JAPAN)!!
 }

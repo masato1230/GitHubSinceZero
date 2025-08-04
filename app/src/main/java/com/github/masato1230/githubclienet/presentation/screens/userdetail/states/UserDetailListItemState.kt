@@ -30,6 +30,7 @@ sealed class UserDetailListItemState {
 
     data class Event(
         val event: GitHubEvent,
+        val isLastEvent: Boolean,
     ) : UserDetailListItemState() {
         override val key: String = "event_${event.id}"
     }
@@ -63,8 +64,15 @@ sealed class UserDetailListItemState {
 
                     is GitHubUserAdditionalInfo.Events -> {
                         items.add(EventSectionTitle)
-                        additionalInfo.events.onSuccess { event ->
-                            items.addAll(event.map { Event(event = it) })
+                        additionalInfo.events.onSuccess { events ->
+                            items.addAll(
+                                events.mapIndexed { index, it ->
+                                    Event(
+                                        event = it,
+                                        isLastEvent = index == events.size - 1,
+                                    )
+                                },
+                            )
                         }.onFailure {
                             items.add(Error(sectionName = "events"))
                         }

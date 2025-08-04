@@ -2,6 +2,7 @@ package com.github.masato1230.githubclienet.data
 
 import com.github.masato1230.githubclienet.BuildConfig
 import com.github.masato1230.githubclienet.GithubClienetConstants
+import com.github.masato1230.githubclienet.data.entities.GitHubEventEntity
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -14,6 +15,8 @@ import io.ktor.client.plugins.defaultRequest
 import io.ktor.client.request.header
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
+import kotlinx.serialization.modules.SerializersModule
+import kotlinx.serialization.modules.polymorphic
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -34,6 +37,13 @@ object DataModule {
                 json(
                     Json {
                         ignoreUnknownKeys = true
+                        serializersModule = SerializersModule {
+                            polymorphic(GitHubEventEntity::class) {
+                                defaultDeserializer {
+                                    GitHubEventEntity.OtherEvent.serializer()
+                                }
+                            }
+                        }
                     },
                 )
             }

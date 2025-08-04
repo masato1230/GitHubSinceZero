@@ -1,16 +1,18 @@
-package com.github.masato1230.githubclienet.presentation.screens.userdetail.sections.comopnents
+package com.github.masato1230.githubclienet.presentation.screens.userdetail.listitems
 
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.github.masato1230.githubclienet.R
 
 @Preview
 @Composable
-internal fun UserDetailSectionErrorText(modifier: Modifier = Modifier) {
+internal fun UserDetailSectionErrorListItem(modifier: Modifier = Modifier) {
     Text(
         text = stringResource(
             id = R.string.communication_failed,
@@ -18,6 +20,6 @@ internal fun UserDetailSectionErrorText(modifier: Modifier = Modifier) {
         style = MaterialTheme.typography.labelLarge.copy(
             color = MaterialTheme.colorScheme.error,
         ),
-        modifier = modifier,
+        modifier = modifier.padding(horizontal = 20.dp),
     )
 }

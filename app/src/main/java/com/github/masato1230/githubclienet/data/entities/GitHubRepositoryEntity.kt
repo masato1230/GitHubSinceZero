@@ -35,8 +35,6 @@ data class GitHubRepositoryEntity(
     @SerialName("updated_at")
     @Serializable(with = ZonedDateTimeSerializer::class)
     val updatedAt: ZonedDateTime,
-    @SerialName("pushed_at")
-    val pushedAt: String,
     @SerialName("html_url")
     val htmlUrl: String,
 ) {

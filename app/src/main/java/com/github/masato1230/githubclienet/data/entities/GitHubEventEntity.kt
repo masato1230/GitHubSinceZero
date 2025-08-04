@@ -287,7 +287,6 @@ sealed class GitHubEventEntity {
 
     @Serializable
     data class ForkeeEntity(
-        val id: String,
         val name: String,
         @SerialName("full_name") val fullName: String,
         val owner: UserEntity,
@@ -322,9 +321,8 @@ sealed class GitHubEventEntity {
 
     @Serializable
     data class PullRequestReviewEntity(
-        val id: String,
         val user: UserEntity,
-        val body: String,
+        val body: String?,
     )
 
     @Serializable
@@ -342,21 +340,20 @@ sealed class GitHubEventEntity {
 
     @Serializable
     data class ReleaseEntity(
-        val id: String,
         @SerialName("tag_name") val tagName: String,
         val name: String?,
         val author: UserEntity,
     )
 
     // FIXME: Stop hardcoding japanese
-    fun toModel(): GitHubEvent {
+    fun toModel(): GitHubEvent? {
         val repoName = this.repo.name
         val createdAt = this.createdAt
 
         return when (this) {
             is CommitCommentEvent -> {
                 val title = "$repoName のコミットにコメントしました"
-                val text = "コメント内容: ${payload.comment.body.take(100)}..."
+                val text = "コメント内容: ${payload.comment.body}"
                 val commitSha = payload.comment.id
                 val destinationUrl = "https://github.com/${repoName}/commit/${commitSha}"
                 GitHubEvent(
@@ -417,7 +414,7 @@ sealed class GitHubEventEntity {
 
             is IssueCommentEvent -> {
                 val title = "$repoName のIssue #${payload.issue.number} にコメントしました"
-                val text = "Issue「${payload.issue.title}」へのコメント: ${payload.comment.body.take(100)}..."
+                val text = "Issue「${payload.issue.title}」へのコメント: ${payload.comment.body}"
                 val destinationUrl = "https://github.com/${repoName}/issues/${payload.issue.number}"
                 GitHubEvent(
                     id = id,
@@ -470,7 +467,7 @@ sealed class GitHubEventEntity {
 
             is PullRequestReviewEvent -> {
                 val title = "$repoName のPR #${payload.pullRequest.number} にレビューを投稿しました"
-                val text = "PRタイトル: `${payload.pullRequest.title}`\nレビュー内容: ${payload.review.body.take(100)}..."
+                val text = "PRタイトル: `${payload.pullRequest.title}`\nレビュー内容: ${payload.review.body}"
                 val destinationUrl = "https://github.com/${repoName}/pull/${payload.pullRequest.number}"
                 GitHubEvent(
                     id = id,
@@ -483,7 +480,7 @@ sealed class GitHubEventEntity {
 
             is PullRequestReviewCommentEvent -> {
                 val title = "$repoName のPR #${payload.pullRequest.number} にコメントしました"
-                val text = "PRタイトル: `${payload.pullRequest.title}`\nコメント内容: ${payload.comment.body.take(100)}..."
+                val text = "PRタイトル: `${payload.pullRequest.title}`\nコメント内容: ${payload.comment.body}"
                 val destinationUrl = "https://github.com/${repoName}/pull/${payload.pullRequest.number}"
                 GitHubEvent(
                     id = id,
@@ -498,7 +495,7 @@ sealed class GitHubEventEntity {
                 val commitCount = payload.commits.size
                 val branchName = payload.ref.removePrefix("refs/heads/")
                 val title = "$repoName のブランチ`${branchName}`にプッシュしました"
-                val text = "${commitCount}個のコミットをプッシュしました。\n最新のコミットメッセージ: `${payload.commits.firstOrNull()?.message?.take(100)}...`"
+                val text = "${commitCount}個のコミットをプッシュしました。\n最新のコミットメッセージ: `${payload.commits.firstOrNull()?.message}`"
                 val destinationUrl = "https://github.com/${repoName}/tree/${branchName}"
                 GitHubEvent(
                     id = id,
@@ -540,16 +537,7 @@ sealed class GitHubEventEntity {
                 )
             }
 
-            is OtherEvent -> {
-                val destinationUrl = "https://github.com/${repoName}"
-                GitHubEvent(
-                    id = id,
-                    title = "$repoName で未知の活動を行いました",
-                    text = "",
-                    destinationUrl = destinationUrl,
-                    date = createdAt
-                )
-            }
+            is OtherEvent -> null
         }
     }
 }

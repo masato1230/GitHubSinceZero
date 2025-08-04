@@ -1,8 +1,6 @@
 package com.github.masato1230.githubclienet.presentation.screens.userdetail
 
 import android.util.Log
-import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -10,6 +8,8 @@ import com.github.masato1230.githubclienet.domain.usecases.GetGitHubUserDetailUs
 import com.github.masato1230.githubclienet.presentation.AppRoute
 import com.github.masato1230.githubclienet.presentation.screens.userdetail.states.UserDetailListItemState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -20,8 +20,8 @@ internal class UserDetailViewModel @Inject constructor(
     private val gitHubUserDetailUseCase: GetGitHubUserDetailUseCase,
 ) : ViewModel() {
 
-    private val _state = mutableStateOf<UserDetailState>(UserDetailState.BaseLoading)
-    val state: State<UserDetailState> = _state
+    private val _state = MutableStateFlow<UserDetailState>(UserDetailState.BaseLoading)
+    val state: StateFlow<UserDetailState> = _state
     val userLogin = requireNotNull(savedStateHandle.get<String>(AppRoute.UserDetail.KEY_USER_LOGIN))
     val avatarUrl = requireNotNull(savedStateHandle.get<String>(AppRoute.UserDetail.KEY_AVATAR_URL))
 
