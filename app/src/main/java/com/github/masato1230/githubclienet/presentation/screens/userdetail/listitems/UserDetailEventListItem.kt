@@ -4,7 +4,9 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
@@ -49,14 +51,16 @@ fun UserDetailEventListItem(
                     text = CustomDateFormatters.defaultDateTimeFormatter.format(event.date),
                     style = MaterialTheme.typography.labelSmall,
                 )
+                Spacer(modifier = Modifier.height(8.dp))
                 Text(
                     text = event.title,
                     style = MaterialTheme.typography.labelLarge,
                 )
+                Spacer(modifier = Modifier.height(4.dp))
                 Text(
                     text = event.text,
                     style = MaterialTheme.typography.bodySmall,
-                    maxLines = 3,
+                    maxLines = 5,
                     overflow = TextOverflow.Ellipsis,
                 )
             }

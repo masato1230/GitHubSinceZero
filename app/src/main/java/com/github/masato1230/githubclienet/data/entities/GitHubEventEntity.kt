@@ -351,191 +351,133 @@ sealed class GitHubEventEntity {
         val createdAt = this.createdAt
 
         return when (this) {
-            is CommitCommentEvent -> {
-                val title = "$repoName のコミットにコメントしました"
-                val text = "コメント内容: ${payload.comment.body}"
-                val commitSha = payload.comment.id
-                val destinationUrl = "https://github.com/${repoName}/commit/${commitSha}"
-                GitHubEvent(
-                    id = id,
-                    title = title,
-                    text = text,
-                    destinationUrl = destinationUrl,
-                    date = createdAt
-                )
-            }
+            is CommitCommentEvent -> GitHubEvent(
+                id = id,
+                title = "$repoName のコミットにコメント",
+                text = payload.comment.body,
+                destinationUrl = "https://github.com/${repoName}/commit/${payload.comment.id}",
+                date = createdAt
+            )
 
-            is CreateEvent -> {
-                val (title, text) = when (payload.refType) {
-                    "repository" -> "新しいリポジトリ `$repoName` を作成しました" to (payload.description ?: "説明はありません")
-                    "branch" -> "$repoName にブランチ `${payload.ref}` を作成しました" to "新しいブランチを追加しました"
-                    "tag" -> "$repoName にタグ `${payload.ref}` を作成しました" to "新しいタグを追加しました"
-                    else -> "$repoName で新規作成を行いました" to ""
-                }
-                val destinationUrl = when (payload.refType) {
+            is CreateEvent -> GitHubEvent(
+                id = id,
+                title = when (payload.refType) {
+                    "repository" -> "リポジトリ `$repoName` を作成"
+                    "branch" -> "`$repoName` にブランチ `${payload.ref}` を作成"
+                    "tag" -> "`$repoName` にタグ `${payload.ref}` を作成"
+                    else -> "`$repoName` で新規作成"
+                },
+                text = payload.description ?: "",
+                destinationUrl = when (payload.refType) {
                     "branch" -> "https://github.com/${repoName}/tree/${payload.ref}"
                     "tag" -> "https://github.com/${repoName}/releases/tag/${payload.ref}"
                     else -> "https://github.com/${repoName}"
-                }
-                GitHubEvent(
-                    id = id,
-                    title = title,
-                    text = text,
-                    destinationUrl = destinationUrl,
-                    date = createdAt
-                )
-            }
+                },
+                date = createdAt
+            )
 
-            is DeleteEvent -> {
-                val title = "$repoName から `${payload.ref}` を削除しました"
-                val text = "${payload.refType}を削除しました"
-                val destinationUrl = "https://github.com/${repoName}"
-                GitHubEvent(
-                    id = id,
-                    title = title,
-                    text = text,
-                    destinationUrl = destinationUrl,
-                    date = createdAt
-                )
-            }
+            is DeleteEvent -> GitHubEvent(
+                id = id,
+                title = "`$repoName` から `${payload.ref}` を削除",
+                text = "${payload.refType}が削除されました",
+                destinationUrl = "https://github.com/${repoName}",
+                date = createdAt
+            )
 
-            is ForkEvent -> {
-                val title = "$repoName をフォークしました"
-                val text = "新しいリポジトリ: `${payload.forkee.fullName}`"
-                val destinationUrl = "https://github.com/${payload.forkee.fullName}"
-                GitHubEvent(
-                    id = id,
-                    title = title,
-                    text = text,
-                    destinationUrl = destinationUrl,
-                    date = createdAt
-                )
-            }
+            is ForkEvent -> GitHubEvent(
+                id = id,
+                title = "`$repoName` をフォーク",
+                text = "フォーク先リポジトリ: `${payload.forkee.fullName}`",
+                destinationUrl = "https://github.com/${payload.forkee.fullName}",
+                date = createdAt
+            )
 
-            is IssueCommentEvent -> {
-                val title = "$repoName のIssue #${payload.issue.number} にコメントしました"
-                val text = "Issue「${payload.issue.title}」へのコメント: ${payload.comment.body}"
-                val destinationUrl = "https://github.com/${repoName}/issues/${payload.issue.number}"
-                GitHubEvent(
-                    id = id,
-                    title = title,
-                    text = text,
-                    destinationUrl = destinationUrl,
-                    date = createdAt
-                )
-            }
+            is IssueCommentEvent -> GitHubEvent(
+                id = id,
+                title = "`$repoName` のIssue #${payload.issue.number} にコメント",
+                text = payload.comment.body,
+                destinationUrl = "https://github.com/${repoName}/issues/${payload.issue.number}",
+                date = createdAt
+            )
 
-            is IssuesEvent -> {
-                val title = "$repoName のIssue #${payload.issue.number} を${
+            is IssuesEvent -> GitHubEvent(
+                id = id,
+                title = "`$repoName` のIssue #${payload.issue.number} を${
                     when (payload.action) {
-                        "opened" -> "オープンしました"
-                        "closed" -> "クローズしました"
-                        "reopened" -> "再度オープンしました"
-                        else -> "更新しました"
+                        "opened" -> "オープン"
+                        "closed" -> "クローズ"
+                        "reopened" -> "再度オープン"
+                        else -> "更新"
                     }
-                }"
-                val text = "Issueタイトル: `${payload.issue.title}`"
-                val destinationUrl = "https://github.com/${repoName}/issues/${payload.issue.number}"
-                GitHubEvent(
-                    id = id,
-                    title = title,
-                    text = text,
-                    destinationUrl = destinationUrl,
-                    date = createdAt
-                )
-            }
+                }",
+                text = "タイトル: `${payload.issue.title}`",
+                destinationUrl = "https://github.com/${repoName}/issues/${payload.issue.number}",
+                date = createdAt
+            )
 
-            is PullRequestEvent -> {
-                val title = "$repoName のPR #${payload.pullRequest.number} を${
+            is PullRequestEvent -> GitHubEvent(
+                id = id,
+                title = "`$repoName` のPR #${payload.pullRequest.number} を${
                     when (payload.action) {
-                        "opened" -> "オープンしました"
-                        "closed" -> "クローズしました"
-                        "reopened" -> "再度オープンしました"
-                        else -> "更新しました"
+                        "opened" -> "オープン"
+                        "closed" -> "クローズ"
+                        "reopened" -> "再度オープン"
+                        else -> "更新"
                     }
-                }"
-                val text = "PRタイトル: `${payload.pullRequest.title}`"
-                val destinationUrl = "https://github.com/${repoName}/pull/${payload.pullRequest.number}"
-                GitHubEvent(
-                    id = id,
-                    title = title,
-                    text = text,
-                    destinationUrl = destinationUrl,
-                    date = createdAt
-                )
-            }
+                }",
+                text = "タイトル: `${payload.pullRequest.title}`",
+                destinationUrl = "https://github.com/${repoName}/pull/${payload.pullRequest.number}",
+                date = createdAt
+            )
 
-            is PullRequestReviewEvent -> {
-                val title = "$repoName のPR #${payload.pullRequest.number} にレビューを投稿しました"
-                val text = "PRタイトル: `${payload.pullRequest.title}`\nレビュー内容: ${payload.review.body}"
-                val destinationUrl = "https://github.com/${repoName}/pull/${payload.pullRequest.number}"
-                GitHubEvent(
-                    id = id,
-                    title = title,
-                    text = text,
-                    destinationUrl = destinationUrl,
-                    date = createdAt
-                )
-            }
+            is PullRequestReviewEvent -> GitHubEvent(
+                id = id,
+                title = "`$repoName` のPR #${payload.pullRequest.number} にレビュー",
+                text = payload.review.body ?: "レビューコメントなし",
+                destinationUrl = "https://github.com/${repoName}/pull/${payload.pullRequest.number}",
+                date = createdAt
+            )
 
-            is PullRequestReviewCommentEvent -> {
-                val title = "$repoName のPR #${payload.pullRequest.number} にコメントしました"
-                val text = "PRタイトル: `${payload.pullRequest.title}`\nコメント内容: ${payload.comment.body}"
-                val destinationUrl = "https://github.com/${repoName}/pull/${payload.pullRequest.number}"
-                GitHubEvent(
-                    id = id,
-                    title = title,
-                    text = text,
-                    destinationUrl = destinationUrl,
-                    date = createdAt
-                )
-            }
+            is PullRequestReviewCommentEvent -> GitHubEvent(
+                id = id,
+                title = "`$repoName` のPR #${payload.pullRequest.number} にコメント",
+                text = payload.comment.body,
+                destinationUrl = "https://github.com/${repoName}/pull/${payload.pullRequest.number}",
+                date = createdAt
+            )
 
             is PushEvent -> {
                 val commitCount = payload.commits.size
                 val branchName = payload.ref.removePrefix("refs/heads/")
-                val title = "$repoName のブランチ`${branchName}`にプッシュしました"
-                val text = "${commitCount}個のコミットをプッシュしました。\n最新のコミットメッセージ: `${payload.commits.firstOrNull()?.message}`"
-                val destinationUrl = "https://github.com/${repoName}/tree/${branchName}"
                 GitHubEvent(
                     id = id,
-                    title = title,
-                    text = text,
-                    destinationUrl = destinationUrl,
+                    title = "`$repoName` のブランチ`${branchName}`にプッシュ",
+                    text = "${commitCount}個のコミットをプッシュしました。\n最新メッセージ:\n`${payload.commits.firstOrNull()?.message ?: ""}`",
+                    destinationUrl = "https://github.com/${repoName}/tree/${branchName}",
                     date = createdAt
                 )
             }
 
-            is ReleaseEvent -> {
-                val title = "$repoName でリリース `${payload.release.tagName}` を${
+            is ReleaseEvent -> GitHubEvent(
+                id = id,
+                title = "`$repoName` のリリース `${payload.release.tagName}` を${
                     when (payload.action) {
-                        "published" -> "公開しました"
-                        else -> "更新しました"
+                        "published" -> "公開"
+                        else -> "更新"
                     }
-                }"
-                val text = payload.release.name ?: "タイトルなし"
-                val destinationUrl = "https://github.com/${repoName}/releases/tag/${payload.release.tagName}"
-                GitHubEvent(
-                    id = id,
-                    title = title,
-                    text = text,
-                    destinationUrl = destinationUrl,
-                    date = createdAt
-                )
-            }
+                }",
+                text = payload.release.name ?: "タイトルなし",
+                destinationUrl = "https://github.com/${repoName}/releases/tag/${payload.release.tagName}",
+                date = createdAt
+            )
 
-            is WatchEvent -> {
-                val title = "$repoName にスターをつけました"
-                val text = "お気に入りのリポジトリとして登録しました"
-                val destinationUrl = "https://github.com/${repoName}"
-                GitHubEvent(
-                    id = id,
-                    title = title,
-                    text = text,
-                    destinationUrl = destinationUrl,
-                    date = createdAt
-                )
-            }
+            is WatchEvent -> GitHubEvent(
+                id = id,
+                title = "`$repoName` にスター",
+                text = "お気に入りのリポジトリとして登録されました",
+                destinationUrl = "https://github.com/${repoName}",
+                date = createdAt
+            )
 
             is OtherEvent -> null
         }
