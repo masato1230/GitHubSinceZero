@@ -41,6 +41,8 @@ internal fun UserDetailScreen(
     animatedContentScope: AnimatedContentScope,
     viewModel: UserDetailViewModel = hiltViewModel(),
     onClickBack: () -> Unit,
+    onClickXAccount: (String) -> Unit,
+    onClickBlogLink: (String) -> Unit,
     onClickRepository: (GitHubRepositoryModel) -> Unit,
     onClickEvent: (GitHubEvent) -> Unit,
 ) {
@@ -93,6 +95,8 @@ internal fun UserDetailScreen(
                     isCompletedLoading = state.isLoadingCompleted,
                     listItems = state.listItems,
                     modifier = Modifier.padding(paddingValues),
+                    onClickXAccount = onClickXAccount,
+                    onClickBlogLink = onClickBlogLink,
                     onClickRepository = onClickRepository,
                     onClickEvent = onClickEvent,
                 )
@@ -106,6 +110,8 @@ private fun UserDetailContent(
     isCompletedLoading: Boolean,
     listItems: List<UserDetailListItemState>,
     modifier: Modifier,
+    onClickXAccount: (String) -> Unit,
+    onClickBlogLink: (String) -> Unit,
     onClickRepository: (GitHubRepositoryModel) -> Unit,
     onClickEvent: (GitHubEvent) -> Unit,
 ) {
@@ -121,6 +127,8 @@ private fun UserDetailContent(
                 is UserDetailListItemState.UserDetail -> {
                     UserDetailBaseListItem(
                         userDetail = listItem.userDetail,
+                        onClickXAccount = onClickXAccount,
+                        onClickBlogLink = onClickBlogLink,
                     )
                 }
                 is UserDetailListItemState.RepositorySectionTitle -> {

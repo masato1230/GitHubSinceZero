@@ -30,7 +30,9 @@ import com.github.masato1230.githubclienet.presentation.theme.GitHubClienetTheme
 @Composable
 internal fun UserDetailBaseListItem(
     userDetail: GitHubUserDetail,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onClickXAccount: (String) -> Unit,
+    onClickBlogLink: (String) -> Unit,
 ) {
     val density = LocalDensity.current
     Column(
@@ -72,7 +74,7 @@ internal fun UserDetailBaseListItem(
                 },
                 text = it,
                 onClick = {
-                    // TODO
+                    onClickXAccount(it)
                 }
             )
         }
@@ -96,6 +98,9 @@ internal fun UserDetailBaseListItem(
                     )
                 },
                 text = it,
+                onClick = {
+                    onClickBlogLink(it)
+                }
             )
         }
         userDetail.location?.let {
@@ -171,6 +176,10 @@ internal fun UserDetailBaseListItem(
 private fun PreviewUserDetailBaseListItem() {
     GitHubClienetTheme {
         val userDetail = GitHubUserDetail.createDummy()
-        UserDetailBaseListItem(userDetail = userDetail)
+        UserDetailBaseListItem(
+            userDetail = userDetail,
+            onClickXAccount = {},
+            onClickBlogLink = {},
+        )
     }
 }

@@ -11,6 +11,7 @@ import androidx.core.net.toUri
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.github.masato1230.githubclienet.GithubClienetConstants
 import com.github.masato1230.githubclienet.presentation.screens.home.HomeScreen
 import com.github.masato1230.githubclienet.presentation.screens.userdetail.UserDetailScreen
 import com.github.masato1230.githubclienet.presentation.theme.GitHubClienetTheme
@@ -50,19 +51,18 @@ class MainActivity : ComponentActivity() {
                                 onClickBack = {
                                     navController.navigateUp()
                                 },
+                                onClickXAccount = { accountId ->
+                                    val url = "${GithubClienetConstants.X_BASE_URL}/$accountId/"
+                                    openCustomTabs(url = url)
+                                },
+                                onClickBlogLink = {
+                                    openCustomTabs(url = it)
+                                },
                                 onClickRepository = { repository ->
-                                    val customTabsIntent = CustomTabsIntent.Builder().build()
-                                    customTabsIntent.launchUrl(
-                                        this@MainActivity,
-                                        repository.htmlUrl.toUri()
-                                    )
+                                    openCustomTabs(url = repository.htmlUrl)
                                 },
                                 onClickEvent = { event ->
-                                    val customTabsIntent = CustomTabsIntent.Builder().build()
-                                    customTabsIntent.launchUrl(
-                                        this@MainActivity,
-                                        event.destinationUrl.toUri(),
-                                    )
+                                    openCustomTabs(url = event.destinationUrl)
                                 }
                             )
                         }
@@ -70,5 +70,10 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
+    }
+
+    private fun openCustomTabs(url: String) {
+        val customTabsIntent = CustomTabsIntent.Builder().build()
+        customTabsIntent.launchUrl(this, url.toUri())
     }
 }
