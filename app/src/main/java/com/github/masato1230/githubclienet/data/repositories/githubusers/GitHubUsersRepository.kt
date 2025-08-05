@@ -1,7 +1,9 @@
 package com.github.masato1230.githubclienet.data.repositories.githubusers
 
+import androidx.paging.PagingSource
 import com.github.masato1230.githubclienet.domain.model.GitHubEvent
 import com.github.masato1230.githubclienet.domain.model.GitHubRepositoryModel
+import com.github.masato1230.githubclienet.domain.model.GitHubUser
 import com.github.masato1230.githubclienet.domain.model.GitHubUserDetail
 
 interface GitHubUsersRepository {
@@ -12,7 +14,7 @@ interface GitHubUsersRepository {
      */
     fun getUsersPagingSource(
         perPage: Int,
-    ): GitHubUsersPagingSource
+    ): PagingSource<Int, GitHubUser>
 
     /**
      * Fetch users from the GitHub API.
