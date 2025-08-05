@@ -34,5 +34,10 @@ class GitHubUsersPagingSource(
         }
     }
 
-    override fun getRefreshKey(state: PagingState<Int, GitHubUser>) = state.anchorPosition
+    override fun getRefreshKey(state: PagingState<Int, GitHubUser>): Int? {
+        return state.anchorPosition?.let { anchorPosition ->
+            val anchorPage = state.closestPageToPosition(anchorPosition)
+            anchorPage?.nextKey
+        }
+    }
 }
