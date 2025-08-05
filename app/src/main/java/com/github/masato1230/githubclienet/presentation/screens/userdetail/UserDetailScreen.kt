@@ -12,7 +12,9 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -20,6 +22,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.github.masato1230.githubclienet.R
@@ -82,6 +85,7 @@ internal fun UserDetailScreen(
                     contentAlignment = Alignment.Center,
                 ) {
                     CommunicationErrorView(
+                        message = state.e.message,
                         onRetry = {
                             viewModel.onEvent(event = UserDetailEvent.OnRetry)
                         },
@@ -131,24 +135,39 @@ private fun UserDetailContent(
                         onClickBlogLink = onClickBlogLink,
                     )
                 }
+
                 is UserDetailListItemState.RepositorySectionTitle -> {
                     UserDetailTitleListItem(
                         title = stringResource(id = R.string.user_detail_repository),
                         modifier = Modifier.padding(top = 20.dp, bottom = 8.dp),
                     )
                 }
+
                 is UserDetailListItemState.Repositories -> {
                     UserDetailRepositoriesListItem(
                         repositories = listItem.repositories,
                         onClickRepository = onClickRepository,
                     )
                 }
+
                 is UserDetailListItemState.EventSectionTitle -> {
                     UserDetailTitleListItem(
                         title = stringResource(id = R.string.user_detail_recent_activities),
                         modifier = Modifier.padding(top = 20.dp, bottom = 8.dp),
                     )
                 }
+
+                is UserDetailListItemState.EventSectionEmpty -> {
+                    Text(
+                        text = stringResource(id = R.string.user_detail_no_recent_activities),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 20.dp),
+                        style = MaterialTheme.typography.bodyMedium,
+                        textAlign = TextAlign.Center,
+                    )
+                }
+
                 is UserDetailListItemState.Event -> {
                     UserDetailEventListItem(
                         event = listItem.event,
@@ -156,6 +175,7 @@ private fun UserDetailContent(
                         onClick = onClickEvent,
                     )
                 }
+
                 is UserDetailListItemState.Error -> {
                     UserDetailSectionErrorListItem()
                 }

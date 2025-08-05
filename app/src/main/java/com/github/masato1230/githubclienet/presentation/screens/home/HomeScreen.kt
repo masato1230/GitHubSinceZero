@@ -57,7 +57,7 @@ internal fun HomeScreen(
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         contentWindowInsets = WindowInsets(top = 0.dp, bottom = 0.dp),
     ) { paddingValues ->
-        when (pagingUsers.loadState.refresh) {
+        when (val refreshState =pagingUsers.loadState.refresh) {
             is LoadState.Loading -> {
                 Box(
                     modifier = Modifier
@@ -86,6 +86,7 @@ internal fun HomeScreen(
                     contentAlignment = Alignment.Center,
                 ) {
                     CommunicationErrorView(
+                        message = refreshState.error.message,
                         onRetry = pagingUsers::retry,
                         modifier = Modifier
                             .padding(16.dp),
@@ -138,9 +139,10 @@ private fun HomeContent(
         item(
             key = "append_loading",
         ) {
-            when (pagingUsers.loadState.append) {
+            when (val appendState = pagingUsers.loadState.append) {
                 is LoadState.Error -> {
                     CommunicationErrorView(
+                        message = appendState.error.message,
                         onRetry = { pagingUsers.retry() },
                         modifier = Modifier.padding(horizontal = 16.dp, vertical = 40.dp),
                     )

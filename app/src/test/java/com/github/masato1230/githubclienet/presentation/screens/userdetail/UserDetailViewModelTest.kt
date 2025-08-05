@@ -122,7 +122,7 @@ class UserDetailViewModelTest {
             // Assert
             viewModel.state.test {
                 assertEquals(UserDetailState.BaseLoading, awaitItem())
-                assertEquals(UserDetailState.Error, awaitItem())
+                assertEquals(UserDetailState.Error(exception), awaitItem())
             }
         }
     }

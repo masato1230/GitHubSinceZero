@@ -11,5 +11,7 @@ internal sealed class UserDetailState {
         val isLoadingCompleted: Boolean,
     ) : UserDetailState()
 
-    data object Error : UserDetailState()
+    data class Error(
+        val e: Throwable,
+    ) : UserDetailState()
 }

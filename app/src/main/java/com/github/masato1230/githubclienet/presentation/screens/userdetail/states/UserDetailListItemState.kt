@@ -28,6 +28,10 @@ sealed class UserDetailListItemState {
         override val key: String = "event_section_title"
     }
 
+    data object EventSectionEmpty : UserDetailListItemState() {
+        override val key: String = "event_section_empty"
+    }
+
     data class Event(
         val event: GitHubEvent,
         val isLastEvent: Boolean,
@@ -47,7 +51,7 @@ sealed class UserDetailListItemState {
             additionalInfos: List<GitHubUserAdditionalInfo>,
         ): List<UserDetailListItemState> {
             val items = mutableListOf<UserDetailListItemState>()
-            additionalInfos.forEach { additionalInfo ->
+            additionalInfos.toList().forEach { additionalInfo ->
                 when (additionalInfo) {
                     is GitHubUserAdditionalInfo.Base -> {
                         items.add(UserDetail(userDetail = additionalInfo.userDetail))
@@ -65,14 +69,18 @@ sealed class UserDetailListItemState {
                     is GitHubUserAdditionalInfo.Events -> {
                         items.add(EventSectionTitle)
                         additionalInfo.events.onSuccess { events ->
-                            items.addAll(
-                                events.mapIndexed { index, it ->
-                                    Event(
-                                        event = it,
-                                        isLastEvent = index == events.size - 1,
-                                    )
-                                },
-                            )
+                            if (events.isEmpty()) {
+                                items.add(EventSectionEmpty)
+                            } else {
+                                items.addAll(
+                                    events.mapIndexed { index, it ->
+                                        Event(
+                                            event = it,
+                                            isLastEvent = index == events.size - 1,
+                                        )
+                                    },
+                                )
+                            }
                         }.onFailure {
                             items.add(Error(sectionName = "events"))
                         }

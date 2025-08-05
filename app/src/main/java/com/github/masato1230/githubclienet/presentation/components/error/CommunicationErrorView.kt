@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -18,6 +19,7 @@ import com.github.masato1230.githubclienet.presentation.theme.GitHubClienetTheme
 
 @Composable
 fun CommunicationErrorView(
+    message: String?,
     onRetry: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -28,6 +30,13 @@ fun CommunicationErrorView(
         Text(
             text = stringResource(id = R.string.communication_failed),
         )
+        message?.let {
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(
+                text = it,
+                style = MaterialTheme.typography.bodySmall,
+            )
+        }
         Spacer(modifier = Modifier.height(8.dp))
         OutlinedButton(
             onClick = onRetry,
@@ -42,6 +51,7 @@ fun CommunicationErrorView(
 private fun PreviewCommunicationErrorView() {
     GitHubClienetTheme {
         CommunicationErrorView(
+            message = "APIのレートリミットに到達しました",
             onRetry = {},
             modifier = Modifier.padding(horizontal = 16.dp),
         )

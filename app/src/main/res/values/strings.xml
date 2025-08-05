@@ -8,6 +8,7 @@
 
     <!-- user detail -->
     <string name="user_detail_recent_activities">最近の活動</string>
+    <string name="user_detail_no_recent_activities">最近の活動はありません</string>
     <string name="user_detail_repository">レポジトリ</string>
 
     <!-- content description -->

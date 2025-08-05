@@ -41,7 +41,7 @@ internal class UserDetailViewModel @Inject constructor(
         viewModelScope.launch {
             gitHubUserDetailUseCase(login = userLogin).catch {
                 Log.e("UserDetailViewModel", "loadUserDetail", it)
-                _state.value = UserDetailState.Error
+                _state.value = UserDetailState.Error(e = it)
             }.collect {
                 _state.value = UserDetailState.ShowList(
                     listItems = UserDetailListItemState.fromModels(it.first),
