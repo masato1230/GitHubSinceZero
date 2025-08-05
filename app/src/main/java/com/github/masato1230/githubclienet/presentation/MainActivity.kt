@@ -52,7 +52,7 @@ class MainActivity : ComponentActivity() {
                                     navController.navigateUp()
                                 },
                                 onClickXAccount = { accountId ->
-                                    val url = "${GithubClienetConstants.X_BASE_URL}/$accountId/"
+                                    val url = "${GithubClienetConstants.X_BASE_URL}$accountId/"
                                     openCustomTabs(url = url)
                                 },
                                 onClickBlogLink = {
