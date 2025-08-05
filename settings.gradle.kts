@@ -19,5 +19,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "GitHubClienet"
+rootProject.name = "GitHubSinceZero"
 include(":app")

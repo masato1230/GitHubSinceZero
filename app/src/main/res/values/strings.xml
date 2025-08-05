@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">GitHubClienet</string>
+    <string name="app_name">GitHubSinceZero</string>
 
     <!-- common -->
     <string name="communication_failed">通信に失敗しました</string>

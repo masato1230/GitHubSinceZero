@@ -19,11 +19,11 @@ val secretProperties = Properties().apply {
 }
 
 android {
-    namespace = "com.github.masato1230.githubclienet"
+    namespace = "com.github.masato1230.githubsincezero"
     compileSdk = 36
 
     defaultConfig {
-        applicationId = "com.github.masato1230.githubclienet"
+        applicationId = "com.github.masato1230.githubsincezero"
         minSdk = 26
         targetSdk = 36
         versionCode = 1
