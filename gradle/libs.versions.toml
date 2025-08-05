@@ -8,7 +8,7 @@ coil = "3.3.0"
 composeBom = "2025.07.00"
 coreKtx = "1.16.0"
 coroutines = "1.10.2"
-coroutinesTest = "1.7.3"
+coroutinesTest = "1.10.2"
 espressoCore = "3.7.0"
 hilt = "2.57"
 hiltNavigationCompose = "1.2.0"
@@ -22,7 +22,8 @@ lifecycleRuntimeKtx = "2.9.2"
 mockk = "1.13.5"
 navigationCompose = "2.9.3"
 pagingCompose = "3.3.6"
-pagingTest = "3.2.1"
+pagingTest = "3.3.6"
+turbine = "1.2.1"
 
 
 [libraries]
@@ -43,6 +44,7 @@ androidx-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-toolin
 androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
 androidx-material-icons-extended = { group = "androidx.compose.material", name = "material-icons-extended"}
 androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
+app-cash-turbine = { group = "app.cash.turbine", name = "turbine", version.ref = "turbine" }
 coil3-coil-compose = { group = "io.coil-kt.coil3", name = "coil-compose", version.ref = "coil" }
 coil3-coil-network-ktor3 = { group = "io.coil-kt.coil3", name = "coil-network-ktor3", version.ref = "coil" }
 dagger-hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
