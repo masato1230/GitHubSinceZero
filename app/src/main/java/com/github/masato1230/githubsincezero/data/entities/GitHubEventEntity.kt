@@ -178,7 +178,6 @@ sealed class GitHubEventEntity {
     // Payloads
     @Serializable
     data class CommitCommentPayload(
-        val action: String,
         val comment: CommitCommentEntity,
     )
 
@@ -186,16 +185,13 @@ sealed class GitHubEventEntity {
     data class CreatePayload(
         val ref: String?,
         @SerialName("ref_type") val refType: String,
-        @SerialName("master_branch") val masterBranch: String?,
         val description: String?,
-        @SerialName("pusher_type") val pusherType: String,
     )
 
     @Serializable
     data class DeletePayload(
         val ref: String,
         @SerialName("ref_type") val refType: String,
-        @SerialName("pusher_type") val pusherType: String,
     )
 
     @Serializable
@@ -205,7 +201,6 @@ sealed class GitHubEventEntity {
 
     @Serializable
     data class IssueCommentPayload(
-        val action: String,
         val issue: IssueEntity,
         val comment: CommentEntity,
     )
@@ -225,25 +220,19 @@ sealed class GitHubEventEntity {
 
     @Serializable
     data class PullRequestReviewPayload(
-        val action: String,
         val review: PullRequestReviewEntity,
         @SerialName("pull_request") val pullRequest: PullRequestEntity,
     )
 
     @Serializable
     data class PullRequestReviewCommentPayload(
-        val action: String,
         val comment: CommentEntity,
         @SerialName("pull_request") val pullRequest: PullRequestEntity,
     )
 
     @Serializable
     data class PushPayload(
-        @SerialName("push_id") val pushId: Long,
-        val size: Int,
         val ref: String,
-        val head: String,
-        val before: String,
         val commits: List<CommitEntity>,
     )
 
@@ -262,7 +251,7 @@ sealed class GitHubEventEntity {
     data class RepoEntity(
         val id: Int,
         val name: String,
-        @SerialName("url") val url: String,
+        val url: String,
     )
 
     @Serializable
@@ -345,7 +334,6 @@ sealed class GitHubEventEntity {
         val author: UserEntity,
     )
 
-    // FIXME: Stop hardcoding japanese
     fun toModel(): GitHubEvent? {
         val repoName = this.repo.name
         val createdAt = this.createdAt
