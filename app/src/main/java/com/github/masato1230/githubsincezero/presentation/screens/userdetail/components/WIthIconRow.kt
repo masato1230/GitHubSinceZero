@@ -36,9 +36,12 @@ fun WithIconRow(
             .fillMaxWidth()
             .padding(vertical = 2.dp)
             .clip(RoundedCornerShape(4.dp))
-            .clickable(
-                enabled = onClick != null,
-                onClick = onClick ?: {},
+            .then(
+                if (onClick != null) {
+                    Modifier.clickable(onClick = onClick)
+                } else {
+                    Modifier
+                }
             ),
         verticalAlignment = Alignment.CenterVertically,
     ) {
