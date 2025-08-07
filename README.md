@@ -1,6 +1,13 @@
 # GitSinceZero
 
-## Capture
+## Captures
+
+<div>
+  <img src="https://github.com/masato1230/GitHubSinceZero/blob/main/images/home.png?raw=true" width="200px" />
+  <img src="https://github.com/masato1230/GitHubSinceZero/blob/main/images/user_detail.png?raw=true" width="200px" />
+</div>
+
+![capture](https://github.com/masato1230/GitHubSinceZero/blob/main/images/transition.gif?raw=true)
 
 ## Optional setup
 
